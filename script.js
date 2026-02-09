@@ -32,8 +32,14 @@ function goTo(target) {
    INIT + LOGIC
 ====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-  /* === SCREEN 1 === */
-  goTo(1);
+    /* ---------- SCREEN 1 ---------- */
+  const btnConsent = document.getElementById("btnConsent");
+
+  if (btnConsent) {
+    btnConsent.addEventListener("click", () => {
+      goTo(2); // ← INI YANG KITA TAMBAHKAN
+    });
+  }
 
   /* ===== SCREEN 2 : NAMA & USIA ===== */
   const nameInput = document.getElementById("name");
