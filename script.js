@@ -57,41 +57,46 @@ document.addEventListener("DOMContentLoaded", () => {
     goTo(3);
   });
 
-  /* ===== SCREEN 3 : PERAN HIDUP ===== */
-  const roleOptions = document.querySelectorAll("#screen-3 .option");
-  const customRoleInput = document.getElementById("customRole");
-  const btnStart = document.getElementById("btnStart");
+/* ===== SCREEN 3 : PERAN HIDUP ===== */
+const roleOptions = document.querySelectorAll("#screen-3 .option");
+const customRoleInput = document.getElementById("customRole");
+const btnStart = document.getElementById("btnStart");
 
-  let selectedRole = "";
+let selectedRole = "";
 
-  roleOptions.forEach(option => {
-    option.addEventListener("click", () => {
-      roleOptions.forEach(o => o.classList.remove("selected"));
-      option.classList.add("selected");
-      selectedRole = option.textContent;
+roleOptions.forEach(option => {
+  option.addEventListener("click", () => {
+    // reset semua opsi
+    roleOptions.forEach(o => o.classList.remove("selected"));
+    option.classList.add("selected");
 
-      if (selectedRole === "Lainnya") {
-        customRoleInput.style.display = "block";
-        customRoleInput.focus();
-        btnStart.disabled = true;
-      } else {
-        customRoleInput.style.display = "none";
-        state.role = selectedRole;
-        btnStart.disabled = false;
-      }
-    });
-  });
+    selectedRole = option.textContent.trim();
 
-  customRoleInput.addEventListener("input", () => {
-    if (customRoleInput.value.trim() !== "") {
-      state.role = customRoleInput.value.trim();
-      btnStart.disabled = false;
-    } else {
+    if (selectedRole === "Lainnya") {
+      // tampilkan input HANYA kalau Lainnya
+      customRoleInput.style.display = "block";
+      customRoleInput.value = "";
+      customRoleInput.focus();
       btnStart.disabled = true;
+    } else {
+      // sembunyikan input kalau bukan Lainnya
+      customRoleInput.style.display = "none";
+      customRoleInput.value = "";
+      state.role = selectedRole;
+      btnStart.disabled = false;
     }
   });
+});
 
-  btnStart.addEventListener("click", () => {
-    goTo(4);
-  });
+customRoleInput.addEventListener("input", () => {
+  if (customRoleInput.value.trim() !== "") {
+    state.role = customRoleInput.value.trim();
+    btnStart.disabled = false;
+  } else {
+    btnStart.disabled = true;
+  }
+});
+
+btnStart.addEventListener("click", () => {
+  goTo(4);
 });
