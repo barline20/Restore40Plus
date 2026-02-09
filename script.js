@@ -42,74 +42,67 @@ function goTo(target) {
    INIT (SAAT HALAMAN DIBUKA)
 ====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-  // pastikan hanya screen 1 aktif saat load
   goTo(1);
-});
 
-/* ======================================================
-   SCREEN 2 : NAMA & USIA
-====================================================== */
-const nameInput = document.getElementById("name");
-const ageInput = document.getElementById("age");
-const btnNextProfile = document.getElementById("btnNextProfile");
+  /* ======================================================
+     SCREEN 2 : NAMA & USIA
+  ====================================================== */
+  const nameInput = document.getElementById("name");
+  const ageInput = document.getElementById("age");
+  const btnNextProfile = document.getElementById("btnNextProfile");
 
-function checkProfileFilled() {
-  const nameFilled = nameInput.value.trim() !== "";
-  const ageFilled = ageInput.value.trim() !== "";
+  function checkProfileFilled() {
+    const nameFilled = nameInput.value.trim() !== "";
+    const ageFilled = ageInput.value.trim() !== "";
+    btnNextProfile.disabled = !(nameFilled && ageFilled);
+  }
 
-  btnNextProfile.disabled = !(nameFilled && ageFilled);
-}
+  nameInput.addEventListener("input", checkProfileFilled);
+  ageInput.addEventListener("input", checkProfileFilled);
 
-nameInput.addEventListener("input", checkProfileFilled);
-ageInput.addEventListener("input", checkProfileFilled);
+  btnNextProfile.addEventListener("click", () => {
+    state.name = nameInput.value.trim();
+    state.age = ageInput.value.trim();
+    goTo(3);
+  });
 
-btnNextProfile.addEventListener("click", () => {
-  state.name = nameInput.value.trim();
-  state.age = ageInput.value.trim();
+  /* ======================================================
+     SCREEN 3 : PERAN HIDUP
+  ====================================================== */
+  const roleOptions = document.querySelectorAll("#screen-3 .option");
+  const customRoleInput = document.getElementById("customRole");
+  const btnStart = document.getElementById("btnStart");
 
-  goTo(3);
-});
+  let selectedRole = "";
 
-/* ======================================================
-   SCREEN 3 : PERAN HIDUP
-====================================================== */
-const roleOptions = document.querySelectorAll("#screen-3 .option");
-const customRoleInput = document.getElementById("customRole");
-const btnStart = document.getElementById("btnStart");
+  roleOptions.forEach(option => {
+    option.addEventListener("click", () => {
+      roleOptions.forEach(o => o.classList.remove("selected"));
+      option.classList.add("selected");
+      selectedRole = option.textContent;
 
-let selectedRole = "";
+      if (selectedRole === "Lainnya") {
+        customRoleInput.style.display = "block";
+        customRoleInput.focus();
+        btnStart.disabled = true;
+      } else {
+        customRoleInput.style.display = "none";
+        state.role = selectedRole;
+        btnStart.disabled = false;
+      }
+    });
+  });
 
-roleOptions.forEach(option => {
-  option.addEventListener("click", () => {
-    // reset semua opsi
-    roleOptions.forEach(o => o.classList.remove("selected"));
-
-    // tandai yang dipilih
-    option.classList.add("selected");
-    selectedRole = option.textContent;
-
-    // jika "Lainnya"
-    if (selectedRole === "Lainnya") {
-      customRoleInput.style.display = "block";
-      customRoleInput.focus();
-      btnStart.disabled = true;
-    } else {
-      customRoleInput.style.display = "none";
-      state.role = selectedRole;
+  customRoleInput.addEventListener("input", () => {
+    if (customRoleInput.value.trim() !== "") {
+      state.role = customRoleInput.value.trim();
       btnStart.disabled = false;
+    } else {
+      btnStart.disabled = true;
     }
   });
-});
 
-customRoleInput.addEventListener("input", () => {
-  if (customRoleInput.value.trim() !== "") {
-    state.role = customRoleInput.value.trim();
-    btnStart.disabled = false;
-  } else {
-    btnStart.disabled = true;
-  }
-});
-
-btnStart.addEventListener("click", () => {
-  goTo(4);
+  btnStart.addEventListener("click", () => {
+    goTo(4);
+  });
 });
