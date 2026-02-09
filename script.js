@@ -1,5 +1,5 @@
 /* ======================================================
-   GLOBAL STATE (BELUM DIPAKAI PENUH)
+   GLOBAL STATE
 ====================================================== */
 const state = {
   name: "",
@@ -14,17 +14,11 @@ const state = {
    SCREEN NAVIGATION
 ====================================================== */
 function goTo(target) {
-  // sembunyikan semua screen
   const screens = document.querySelectorAll(".screen");
-  screens.forEach(screen => {
-    screen.classList.remove("active");
-  });
+  screens.forEach(screen => screen.classList.remove("active"));
 
-  // tampilkan screen tujuan
   const nextScreen = document.getElementById(
-    typeof target === "number"
-      ? `screen-${target}`
-      : `screen-${target}`
+    typeof target === "number" ? `screen-${target}` : `screen-${target}`
   );
 
   if (!nextScreen) {
@@ -33,20 +27,17 @@ function goTo(target) {
   }
 
   nextScreen.classList.add("active");
-
-  // scroll ke atas setiap ganti screen
   window.scrollTo(0, 0);
 }
 
 /* ======================================================
-   INIT (SAAT HALAMAN DIBUKA)
+   INIT + LOGIC
 ====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
+  // tampilkan screen pertama
   goTo(1);
 
-  /* ======================================================
-     SCREEN 2 : NAMA & USIA
-  ====================================================== */
+  /* ===== SCREEN 2 : NAMA & USIA ===== */
   const nameInput = document.getElementById("name");
   const ageInput = document.getElementById("age");
   const btnNextProfile = document.getElementById("btnNextProfile");
@@ -66,9 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     goTo(3);
   });
 
-  /* ======================================================
-     SCREEN 3 : PERAN HIDUP
-  ====================================================== */
+  /* ===== SCREEN 3 : PERAN HIDUP ===== */
   const roleOptions = document.querySelectorAll("#screen-3 .option");
   const customRoleInput = document.getElementById("customRole");
   const btnStart = document.getElementById("btnStart");
