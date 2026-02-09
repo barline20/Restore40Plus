@@ -100,3 +100,60 @@ customRoleInput.addEventListener("input", () => {
 btnStart.addEventListener("click", () => {
   goTo(4);
 });
+/* ======================================================
+   SCREEN 4 : RENDER PERTANYAAN
+====================================================== */
+const questionBox = document.getElementById("questions");
+const btnResult = document.querySelector("#screen-4 button");
+
+btnResult.disabled = true;
+
+questions.forEach(q => {
+  const card = document.createElement("div");
+  card.className = "question-card";
+
+  const questionText = document.createElement("strong");
+  questionText.textContent = q.text;
+
+  const answers = document.createElement("div");
+
+  const options = [
+    { label: "Ya", value: 3 },
+    { label: "Terkadang", value: 2 },
+    { label: "Tidak", value: 1 }
+  ];
+
+  options.forEach(opt => {
+    const btn = document.createElement("div");
+    btn.className = "answer";
+    btn.textContent = opt.label;
+
+    btn.addEventListener("click", () => {
+      answers.querySelectorAll(".answer").forEach(a => a.classList.remove("selected"));
+      btn.classList.add("selected");
+
+      state.answers[q.id] = {
+        value: opt.value,
+        dimension: q.dimension
+      };
+
+      checkAllAnswered();
+    });
+
+    answers.appendChild(btn);
+  });
+
+  card.appendChild(questionText);
+  card.appendChild(answers);
+  questionBox.appendChild(card);
+});
+function checkAllAnswered() {
+  if (Object.keys(state.answers).length === questions.length) {
+    btnResult.disabled = false;
+  } else {
+    btnResult.disabled = true;
+  }
+}
+btnResult.addEventListener("click", () => {
+  goTo(5);
+});
