@@ -170,3 +170,6 @@ button:disabled {
   background: #b7c7bd;
   cursor: not-allowed;
 }
+#customRole {
+  display: none;
+}
