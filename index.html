@@ -1,1 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Restore 40+</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- STYLE -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =========================
+       SCREEN 1 : OPENING
+  ========================== -->
+  <section class="screen active" id="screen-1">
+    <h1>🌱 Restore 40+</h1>
+    <p>
+      Halo 🤍<br />
+      Saya di sini untuk menemani Anda.<br />
+      Maukah Anda meluangkan waktu sejenak untuk perjalanan kecil ini?
+    </p>
+
+    <button class="primary" onclick="goTo(2)">
+      Ya, saya bersedia
+    </button>
+
+    <button class="secondary" onclick="goTo('1b')">
+      Tidak sekarang
+    </button>
+  </section>
+
+  <!-- =========================
+       SCREEN 1B : TIDAK SEKARANG
+  ========================== -->
+  <section class="screen" id="screen-1b">
+    <p>
+      🌿 Tidak apa-apa.<br /><br />
+      Kadang, mengetahui bahwa ada ruang untuk beristirahat saja sudah cukup.
+      Jika suatu hari Anda ingin kembali,<br />
+      <strong>Restore 40+</strong> akan tetap ada.
+    </p>
+
+    <button class="secondary" onclick="goTo(1)">
+      Kembali
+    </button>
+  </section>
+
+  <!-- =========================
+       SCREEN 2 : NAMA & USIA
+  ========================== -->
+  <section class="screen" id="screen-2">
+    <h2>🤍 Mari berkenalan</h2>
+
+    <input
+      type="text"
+      id="name"
+      placeholder="Nama Anda"
+    />
+
+    <input
+      type="number"
+      id="age"
+      placeholder="Usia Anda (dirancang untuk usia 40–59 tahun)"
+    />
+
+    <button class="primary">
+      Lanjut
+    </button>
+  </section>
+
+  <!-- =========================
+       SCREEN 3 : PERAN HIDUP
+  ========================== -->
+  <section class="screen" id="screen-3">
+    <h2>🌱 Saat ini, apa peran utama Anda?</h2>
+
+    <div class="option">Karyawan / Pegawai</div>
+    <div class="option">Pimpinan / Manajer</div>
+    <div class="option">Wirausaha</div>
+    <div class="option">Ibu Rumah Tangga</div>
+    <div class="option">Caregiver Keluarga</div>
+    <div class="option">Lainnya</div>
+
+    <input
+      type="text"
+      id="customRole"
+      placeholder="Tuliskan peran Anda"
+    />
+
+    <button class="primary">
+      Mulai
+    </button>
+  </section>
+
+  <!-- =========================
+       SCREEN 4 : ALAT UKUR
+  ========================== -->
+  <section class="screen" id="screen-4">
+    <h2>🌿 Luangkan sejenak untuk menjawab</h2>
+    <p class="soft">
+      Sesuai dengan apa yang Anda rasakan saat ini.<br />
+      Tidak ada jawaban benar atau salah.
+      Kami menghargai setiap kejujuran yang dibagikan.
+    </p>
+
+    <!-- Pertanyaan akan di-render via JS -->
+    <div id="questions"></div>
+
+    <button class="primary">
+      Lihat Refleksi
+    </button>
+  </section>
+
+  <!-- =========================
+       SCREEN 5 : HASIL REFLEKSI
+  ========================== -->
+  <section class="screen" id="screen-5">
+    <h2>🤍 Hasil Refleksi Anda</h2>
+
+    <!-- Hasil refleksi via JS -->
+    <div id="reflectionResult"></div>
+
+    <button class="primary">
+      Lanjut
+    </button>
+  </section>
+
+  <!-- =========================
+       SCREEN 6 : BERJALAN BERSAMA
+  ========================== -->
+  <section class="screen" id="screen-6">
+    <h2>🤍 Kini, kita bisa berjalan bersama</h2>
+    <p class="soft">
+      Restore 40+ hadir untuk menemani Anda beristirahat,<br />
+      merefleksi, dan kembali utuh.
+    </p>
+
+    <input
+      type="tel"
+      id="phone"
+      placeholder="Nomor HP Anda"
+    />
+
+    <button class="primary">
+      Submit
+    </button>
+  </section>
+
+  <!-- =========================
+       SCREEN 7 : PROGRAM 5 HARI
+  ========================== -->
+  <section class="screen" id="screen-7">
+    <h2>🌿 Mari kita mulai proses pemulihan Anda</h2>
+
+    <!-- Program day 1–5 via JS -->
+    <div id="programDays"></div>
+  </section>
+
+  <!-- SCRIPT -->
+  <script src="data/questions.js"></script>
+  <script src="data/programs.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
 
