@@ -166,4 +166,7 @@ input:focus {
 .day-card.locked {
   opacity: 0.5;
 }
-
+button:disabled {
+  background: #b7c7bd;
+  cursor: not-allowed;
+}
