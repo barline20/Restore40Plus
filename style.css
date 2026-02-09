@@ -1,1 +1,169 @@
+/* =========================
+   RESET & GLOBAL
+========================= */
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f7f3;
+  color: #2f3a2f;
+  line-height: 1.6;
+}
+
+/* =========================
+   SCREEN SYSTEM
+========================= */
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 48px 20px;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+h1, h2 {
+  margin-bottom: 16px;
+}
+
+p {
+  margin-bottom: 24px;
+}
+
+.soft {
+  color: #5e6e5e;
+  font-size: 0.95rem;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+button {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button.primary {
+  background: #4f7a5b;
+  color: #ffffff;
+}
+
+button.primary:hover {
+  background: #3f6249;
+}
+
+button.secondary {
+  background: transparent;
+  color: #4f7a5b;
+}
+
+/* =========================
+   INPUTS
+========================= */
+input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #d0d8d0;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4f7a5b;
+}
+
+/* =========================
+   OPTION CARDS
+========================= */
+.option {
+  border: 1px solid #d0d8d0;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  text-align: left;
+  background: #ffffff;
+}
+
+.option:hover {
+  background: #eef3ee;
+}
+
+/* Selected state (akan dipakai JS nanti) */
+.option.selected {
+  background: #dbe8df;
+  border-color: #4f7a5b;
+}
+
+/* =========================
+   QUESTION CARDS
+========================= */
+.question-card {
+  border: 1px solid #d0d8d0;
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.question-card strong {
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* =========================
+   ANSWER OPTIONS
+========================= */
+.answer {
+  border: 1px solid #d0d8d0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  background: #ffffff;
+}
+
+.answer:hover {
+  background: #eef3ee;
+}
+
+/* Selected answer */
+.answer.selected {
+  background: #dbe8df;
+  border-color: #4f7a5b;
+}
+
+/* =========================
+   PROGRAM DAYS
+========================= */
+.day-card {
+  border: 1px solid #d0d8d0;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 16px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.day-card.locked {
+  opacity: 0.5;
+}
 
