@@ -173,3 +173,15 @@ button:disabled {
 #customRole {
   display: none;
 }
+/* FIX: pastikan tombol screen 1 bisa diklik */
+#screen-1 {
+  position: relative;
+  z-index: 10;
+}
+
+#screen-1 button {
+  position: relative;
+  z-index: 11;
+  pointer-events: auto;
+}
+
