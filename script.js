@@ -1,138 +1,102 @@
-/* ======================================================
+/* ===============================
    GLOBAL STATE
-====================================================== */
+=============================== */
 const state = {
   name: "",
   age: "",
-  role: "",
-  answers: {},
-  dominant: "",
-  progressDay: 1
+  role: ""
 };
 
-/* ======================================================
-   SCREEN NAVIGATION
-====================================================== */
+/* ===============================
+   NAVIGASI SCREEN
+=============================== */
 function goTo(target) {
-  const screens = document.querySelectorAll(".screen");
-  screens.forEach(screen => screen.classList.remove("active"));
+  document.querySelectorAll(".screen").forEach(s => {
+    s.classList.remove("active");
+  });
 
-  const nextScreen = document.getElementById(`screen-${target}`);
-
-  if (!nextScreen) {
-    console.error("Screen tidak ditemukan:", target);
-    return;
+  const next = document.getElementById(`screen-${target}`);
+  if (next) {
+    next.classList.add("active");
+    window.scrollTo(0, 0);
   }
-
-  nextScreen.classList.add("active");
-  window.scrollTo(0, 0);
 }
 
-/* ======================================================
-   INIT + LOGIC
-====================================================== */
+/* ===============================
+   INIT
+=============================== */
 document.addEventListener("DOMContentLoaded", () => {
-    /* ---------- SCREEN 1 ---------- */
-  const btnConsent = document.getElementById("btnConsent");
 
+  // SCREEN 1
+  goTo(1);
+
+  const btnConsent = document.getElementById("btnConsent");
   if (btnConsent) {
     btnConsent.addEventListener("click", () => {
-      goTo(2); // ← INI YANG KITA TAMBAHKAN
+      goTo(2);
     });
   }
 
-  /* ===== SCREEN 2 : NAMA & USIA ===== */
+  // SCREEN 2
   const nameInput = document.getElementById("name");
   const ageInput = document.getElementById("age");
-  const btnNextProfile = document.getElementById("btnNextProfile");
+  const btnNext = document.getElementById("btnNextProfile");
 
-  function checkProfileFilled() {
-    const nameFilled = nameInput.value.trim() !== "";
-    const ageFilled = ageInput.value.trim() !== "";
-    btnNextProfile.disabled = !(nameFilled && ageFilled);
+  function checkProfile() {
+    if (!btnNext) return;
+    btnNext.disabled = !(nameInput.value.trim() && ageInput.value.trim());
   }
 
-  nameInput.addEventListener("input", checkProfileFilled);
-  ageInput.addEventListener("input", checkProfileFilled);
+  if (nameInput && ageInput) {
+    nameInput.addEventListener("input", checkProfile);
+    ageInput.addEventListener("input", checkProfile);
+  }
 
-  btnNextProfile.addEventListener("click", () => {
-    state.name = nameInput.value.trim();
-    state.age = ageInput.value.trim();
-    goTo(3);
-  });
+  if (btnNext) {
+    btnNext.addEventListener("click", () => {
+      state.name = nameInput.value.trim();
+      state.age = ageInput.value.trim();
+      goTo(3);
+    });
+  }
 
-  /* ===== SCREEN 3 : PERAN HIDUP ===== */
-  const roleOptions = document.querySelectorAll("#screen-3 .option");
-  const customRoleInput = document.getElementById("customRole");
+  // SCREEN 3
+  const options = document.querySelectorAll("#screen-3 .option");
+  const customRole = document.getElementById("customRole");
   const btnStart = document.getElementById("btnStart");
 
-  customRoleInput.style.display = "none";
-  let selectedRole = "";
+  if (customRole) customRole.style.display = "none";
+  if (btnStart) btnStart.disabled = true;
 
-  roleOptions.forEach(option => {
-    option.addEventListener("click", () => {
-      roleOptions.forEach(o => o.classList.remove("selected"));
-      option.classList.add("selected");
+  options.forEach(opt => {
+    opt.addEventListener("click", () => {
+      options.forEach(o => o.classList.remove("selected"));
+      opt.classList.add("selected");
 
-      selectedRole = option.textContent.trim();
-
-      if (selectedRole === "Lainnya") {
-        customRoleInput.style.display = "block";
-        customRoleInput.value = "";
-        btnStart.disabled = true;
+      if (opt.textContent.trim() === "Lainnya") {
+        if (customRole) {
+          customRole.style.display = "block";
+          btnStart.disabled = true;
+        }
       } else {
-        customRoleInput.style.display = "none";
-        state.role = selectedRole;
+        if (customRole) customRole.style.display = "none";
+        state.role = opt.textContent.trim();
         btnStart.disabled = false;
       }
     });
   });
 
-  customRoleInput.addEventListener("input", () => {
-    if (customRoleInput.value.trim() !== "") {
-      state.role = customRoleInput.value.trim();
-      btnStart.disabled = false;
-    } else {
-      btnStart.disabled = true;
-    }
-  });
-
-  btnStart.addEventListener("click", () => {
-    goTo(4);
-  });
-
-/* ======================================================
-   SCREEN 4 : PERTANYAAN (TAHAP 3 - AMAN)
-====================================================== */
-const questionBox = document.getElementById("questions");
-
-if (questionBox && typeof questions !== "undefined") {
-  questions.forEach(q => {
-    const card = document.createElement("div");
-    card.className = "question-card";
-
-    const text = document.createElement("p");
-    text.textContent = q.text;
-
-    const options = document.createElement("div");
-
-    ["Ya", "Terkadang", "Tidak"].forEach(label => {
-      const opt = document.createElement("div");
-      opt.className = "answer";
-      opt.textContent = label;
-
-      opt.addEventListener("click", () => {
-        options.querySelectorAll(".answer")
-          .forEach(a => a.classList.remove("selected"));
-        opt.classList.add("selected");
-      });
-
-      options.appendChild(opt);
+  if (customRole) {
+    customRole.addEventListener("input", () => {
+      btnStart.disabled = !customRole.value.trim();
+      state.role = customRole.value.trim();
     });
+  }
 
-    card.appendChild(text);
-    card.appendChild(options);
-    questionBox.appendChild(card);
-  });
-}
+  if (btnStart) {
+    btnStart.addEventListener("click", () => {
+      goTo(4);
+    });
+  }
 
+}); 
