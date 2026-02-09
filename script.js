@@ -95,54 +95,38 @@ document.addEventListener("DOMContentLoaded", () => {
     goTo(4);
   });
 
-  /* ======================================================
-     SCREEN 4 : RENDER PERTANYAAN (DIMATIKAN SEMENTARA)
-     Supaya Screen 1 & 2 hidup dulu
-  ====================================================== */
+/* ======================================================
+   SCREEN 4 : PERTANYAAN (TAHAP 3 - AMAN)
+====================================================== */
+const questionBox = document.getElementById("questions");
 
-  /*
-  const questionBox = document.getElementById("questions");
-  const btnResult = document.querySelector("#screen-4 button");
-
-  btnResult.disabled = true;
-
+if (questionBox && typeof questions !== "undefined") {
   questions.forEach(q => {
     const card = document.createElement("div");
     card.className = "question-card";
 
-    const questionText = document.createElement("strong");
-    questionText.textContent = q.text;
+    const text = document.createElement("p");
+    text.textContent = q.text;
 
-    const answers = document.createElement("div");
+    const options = document.createElement("div");
 
-    const options = [
-      { label: "Ya", value: 3 },
-      { label: "Terkadang", value: 2 },
-      { label: "Tidak", value: 1 }
-    ];
+    ["Ya", "Terkadang", "Tidak"].forEach(label => {
+      const opt = document.createElement("div");
+      opt.className = "answer";
+      opt.textContent = label;
 
-    options.forEach(opt => {
-      const btn = document.createElement("div");
-      btn.className = "answer";
-      btn.textContent = opt.label;
-
-      btn.addEventListener("click", () => {
-        answers.querySelectorAll(".answer").forEach(a => a.classList.remove("selected"));
-        btn.classList.add("selected");
-
-        state.answers[q.id] = {
-          value: opt.value,
-          dimension: q.dimension
-        };
+      opt.addEventListener("click", () => {
+        options.querySelectorAll(".answer")
+          .forEach(a => a.classList.remove("selected"));
+        opt.classList.add("selected");
       });
 
-      answers.appendChild(btn);
+      options.appendChild(opt);
     });
 
-    card.appendChild(questionText);
-    card.appendChild(answers);
+    card.appendChild(text);
+    card.appendChild(options);
     questionBox.appendChild(card);
   });
-  */
+}
 
-});
