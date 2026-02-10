@@ -265,7 +265,10 @@ function renderProgramDays() {
   const container = document.getElementById("programDays");
   container.innerHTML = "";
 
-  program.forEach((day, i) => {
+  const selectedProgram = programs[state.dominant];
+  if (!selectedProgram) return;
+
+  selectedProgram.forEach((day, i) => {
     const dayNum = i + 1;
     const locked = dayNum > state.currentDay;
 
