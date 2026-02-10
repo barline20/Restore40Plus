@@ -3,7 +3,7 @@
 ========================= */
 * {
   box-sizing: border-box;
-  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Segoe UI", system-ui, sans-serif;
 }
 
 body {
@@ -18,7 +18,6 @@ body {
 ========================= */
 .screen {
   display: none;
-  pointer-events: none;
   min-height: 100vh;
   padding: 48px 20px;
   max-width: 720px;
@@ -28,9 +27,6 @@ body {
 
 .screen.active {
   display: block;
-  pointer-events: auto;
-  position: relative;
-  z-index: 1;
 }
 
 /* =========================
@@ -41,7 +37,7 @@ h1, h2 {
 }
 
 p {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .soft {
@@ -56,7 +52,7 @@ button {
   width: 100%;
   padding: 14px 16px;
   margin-top: 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   font-size: 1rem;
   cursor: pointer;
@@ -64,16 +60,16 @@ button {
 
 button.primary {
   background: #4f7a5b;
-  color: #ffffff;
+  color: white;
 }
 
 button.primary:hover {
   background: #3f6249;
 }
 
-button.secondary {
-  background: transparent;
-  color: #4f7a5b;
+button:disabled {
+  background: #b7c7bd;
+  cursor: not-allowed;
 }
 
 /* =========================
@@ -83,98 +79,75 @@ input {
   width: 100%;
   padding: 14px 16px;
   margin-bottom: 14px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid #d0d8d0;
-  font-size: 1rem;
-}
-
-input:focus {
-  outline: none;
-  border-color: #4f7a5b;
 }
 
 /* =========================
-   OPTION CARDS
+   OPTION
 ========================= */
 .option {
   border: 1px solid #d0d8d0;
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 12px;
+  background: #fff;
   cursor: pointer;
   text-align: left;
-  background: #ffffff;
 }
 
-.option:hover {
-  background: #eef3ee;
-}
-
-/* Selected state (akan dipakai JS nanti) */
 .option.selected {
   background: #dbe8df;
   border-color: #4f7a5b;
 }
 
 /* =========================
-   QUESTION CARDS
+   QUESTION CARD
 ========================= */
 .question-card {
-  border: 1px solid #d0d8d0;
+  background: #fff;
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 20px;
-  background: #ffffff;
   text-align: left;
 }
 
-.question-card strong {
-  display: block;
-  margin-bottom: 12px;
-}
-
 /* =========================
-   ANSWER OPTIONS
+   ANSWERS
 ========================= */
 .answer {
   border: 1px solid #d0d8d0;
   border-radius: 10px;
-  padding: 10px 14px;
+  padding: 10px;
   margin-bottom: 8px;
   cursor: pointer;
-  background: #ffffff;
 }
 
-.answer:hover {
-  background: #eef3ee;
-}
-
-/* Selected answer */
 .answer.selected {
   background: #dbe8df;
   border-color: #4f7a5b;
 }
 
 /* =========================
-   PROGRAM DAYS
+   PROGRAM DAYS (DAY 1–5 UI)
 ========================= */
+#programDays {
+  margin-top: 32px;
+}
+
 .day-card {
-  border: 1px solid #d0d8d0;
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 16px;
   background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
   text-align: left;
+  border: 1px solid #d0d8d0;
+}
+
+.day-card h3 {
+  margin-top: 0;
 }
 
 .day-card.locked {
   opacity: 0.5;
 }
-button:disabled {
-  background: #b7c7bd;
-  cursor: not-allowed;
-}
-#customRole {
-  display: none;
-}
-/* FIX: pastikan tombol screen 1 bisa diklik */

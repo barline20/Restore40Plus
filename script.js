@@ -1,7 +1,7 @@
 /* ======================================================
    GLOBAL STATE (TANPA AUTOSAVE SCREEN)
 ====================================================== */
-const state = JSON.parse(localStorage.getItem("restore40_state")) || {
+const state = {
   name: "",
   age: "",
   role: "",
@@ -11,12 +11,8 @@ const state = JSON.parse(localStorage.getItem("restore40_state")) || {
   currentDay: 1
 };
 
-function saveState() {
-  localStorage.setItem("restore40_state", JSON.stringify(state));
-}
-
 /* ======================================================
-   NAVIGASI SCREEN (TANPA DISIMPAN)
+   NAVIGASI SCREEN
 ====================================================== */
 window.goTo = function (target) {
   document.querySelectorAll(".screen").forEach(s =>
@@ -42,8 +38,6 @@ const SCORE_MAP = {
    INIT
 ====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
-
-  /* selalu mulai dari screen 1 */
   goTo(1);
 
   /* ================= SCREEN 2 : PROFIL ================= */
@@ -51,36 +45,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const ageInput = document.getElementById("age");
   const btnNextProfile = document.getElementById("btnNextProfile");
 
-  if (nameInput) nameInput.value = state.name;
-  if (ageInput) ageInput.value = state.age;
-
   function checkProfile() {
     btnNextProfile.disabled =
       !(nameInput.value.trim() && ageInput.value.trim());
   }
 
-  nameInput?.addEventListener("input", () => {
-    state.name = nameInput.value;
-    saveState();
-    checkProfile();
-  });
+  nameInput?.addEventListener("input", checkProfile);
+  ageInput?.addEventListener("input", checkProfile);
 
-  ageInput?.addEventListener("input", () => {
-    state.age = ageInput.value;
-    saveState();
-    checkProfile();
+  btnNextProfile?.addEventListener("click", () => {
+    state.name = nameInput.value.trim();
+    state.age = ageInput.value.trim();
+    goTo(3);
   });
-
-  btnNextProfile?.addEventListener("click", () => goTo(3));
-  checkProfile();
 
   /* ================= SCREEN 3 : PERAN ================= */
   const roleOptions = document.querySelectorAll("#screen-3 .option");
   const customRole = document.getElementById("customRole");
   const btnStart = document.getElementById("btnStart");
 
-  if (customRole) customRole.style.display = "none";
-  if (btnStart) btnStart.disabled = true;
+  customRole.style.display = "none";
+  btnStart.disabled = true;
 
   roleOptions.forEach(opt => {
     opt.addEventListener("click", () => {
@@ -94,16 +79,14 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         customRole.style.display = "none";
         state.role = val;
-        saveState();
         btnStart.disabled = false;
       }
     });
   });
 
   customRole?.addEventListener("input", () => {
-    state.role = customRole.value;
-    btnStart.disabled = !customRole.value.trim();
-    saveState();
+    state.role = customRole.value.trim();
+    btnStart.disabled = !state.role;
   });
 
   btnStart?.addEventListener("click", () => goTo(4));
@@ -111,72 +94,61 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ================= SCREEN 4 : PERTANYAAN ================= */
   const questionBox = document.getElementById("questions");
   const btnResult = document.getElementById("btnResult");
+  btnResult.disabled = true;
 
   function checkAnswered() {
     btnResult.disabled =
       Object.keys(state.answers).length !== questions.length;
   }
 
-  if (questionBox) {
-    questionBox.innerHTML = "";
-    questions.forEach(q => {
-      const card = document.createElement("div");
-      card.className = "question-card";
+  questions.forEach(q => {
+    const card = document.createElement("div");
+    card.className = "question-card";
 
-      const p = document.createElement("p");
-      p.textContent = q.text;
+    const p = document.createElement("p");
+    p.textContent = q.text;
 
-      const opts = document.createElement("div");
+    const opts = document.createElement("div");
 
-      ["Ya", "Terkadang", "Tidak"].forEach(label => {
-        const o = document.createElement("div");
-        o.className = "answer";
-        o.textContent = label;
+    ["Ya", "Terkadang", "Tidak"].forEach(label => {
+      const o = document.createElement("div");
+      o.className = "answer";
+      o.textContent = label;
 
-        if (state.answers[q.id] === label) {
-          o.classList.add("selected");
-        }
-
-        o.addEventListener("click", () => {
-          opts.querySelectorAll(".answer")
-            .forEach(a => a.classList.remove("selected"));
-          o.classList.add("selected");
-          state.answers[q.id] = label;
-          saveState();
-          checkAnswered();
-        });
-
-        opts.appendChild(o);
+      o.addEventListener("click", () => {
+        opts.querySelectorAll(".answer")
+          .forEach(a => a.classList.remove("selected"));
+        o.classList.add("selected");
+        state.answers[q.id] = label;
+        checkAnswered();
       });
 
-      card.appendChild(p);
-      card.appendChild(opts);
-      questionBox.appendChild(card);
+      opts.appendChild(o);
     });
-  }
 
-  checkAnswered();
+    card.appendChild(p);
+    card.appendChild(opts);
+    questionBox.appendChild(card);
+  });
 
-  btnResult?.addEventListener("click", () => {
+  btnResult.addEventListener("click", () => {
     calculateResult();
     renderReflection();
     goTo(5);
   });
 
-  /* ================= SCREEN 6 : SUBMIT HP ================= */
+  /* ================= SCREEN 6 : HP ================= */
   const phoneInput = document.getElementById("phone");
   const btnSubmitPhone = document.getElementById("btnSubmitPhone");
 
-  if (phoneInput) phoneInput.value = state.phone;
-
-  btnSubmitPhone?.addEventListener("click", () => {
+  btnSubmitPhone.addEventListener("click", () => {
     if (!phoneInput.value.trim()) {
       alert("Silakan masukkan nomor HP Anda 🤍");
       return;
     }
 
-    state.phone = phoneInput.value;
-    saveState();
+    state.phone = phoneInput.value.trim();
+    state.currentDay = 1;
     goTo(7);
     renderProgramDays();
   });
@@ -187,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 ====================================================== */
 function calculateResult() {
   const scores = {};
+
   questions.forEach(q => {
     const val = SCORE_MAP[state.answers[q.id]] || 0;
     scores[q.dimension] = (scores[q.dimension] || 0) + val;
@@ -199,7 +172,6 @@ function calculateResult() {
       state.dominant = d;
     }
   }
-  saveState();
 }
 
 /* ======================================================
@@ -221,7 +193,7 @@ function renderReflection() {
   box.innerHTML = `
     <p>
       Setiap jawaban yang Anda berikan adalah cerita kecil tentang kondisi Anda saat ini.
-      Dari sana, terlihat satu area yang sedang paling membutuhkan ruang untuk dipedulikan:
+      Dari sana, terlihat satu area yang paling membutuhkan perhatian:
       <strong>${titles[state.dominant]}</strong>.
     </p>
   `;
@@ -251,17 +223,16 @@ function renderProgramDays() {
       <p>${day.guide}</p>
       ${
         locked
-          ? `<p class="soft">🔒 Hari ini akan terbuka setelah hari sebelumnya selesai.</p>`
+          ? `<p class="soft">🔒 Hari ini masih terkunci</p>`
           : dayNum < 5
             ? `<button class="primary">Saya sudah melakukan ini</button>`
-            : `<p>🌱 Terima kasih telah berjalan sejauh ini.</p>`
+            : `<p>🌱 Terima kasih telah berjalan sejauh ini</p>`
       }
     `;
 
     if (!locked && dayNum < 5) {
       card.querySelector("button").addEventListener("click", () => {
         state.currentDay++;
-        saveState();
         renderProgramDays();
       });
     }
