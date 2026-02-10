@@ -1,18 +1,18 @@
-/* ===============================
+/* ======================================================
    GLOBAL STATE
-=============================== */
+====================================================== */
 const state = {
   name: "",
   age: "",
   role: "",
+  phone: "",
   answers: {},
-  dominant: "",
-  currentDay: 1
+  dominant: ""
 };
 
-/* ===============================
-   NAVIGASI SCREEN
-=============================== */
+/* ======================================================
+   NAVIGASI SCREEN (GLOBAL)
+====================================================== */
 window.goTo = function (target) {
   document.querySelectorAll(".screen").forEach(s => {
     s.classList.remove("active");
@@ -25,31 +25,18 @@ window.goTo = function (target) {
   }
 };
 
-/* ===============================
+/* ======================================================
    KONVERSI SKOR
-=============================== */
+====================================================== */
 const SCORE_MAP = {
   "Ya": 3,
   "Terkadang": 2,
   "Tidak": 1
 };
 
-/* ===============================
-   LABEL DIMENSI
-=============================== */
-const DIMENSION_LABEL = {
-  fisik: "Kelelahan Fisik",
-  pikiran: "Kelelahan Pikiran",
-  emosional: "Kelelahan Emosional",
-  sensorik: "Kelelahan Sensorik",
-  relasi: "Kelelahan Relasi",
-  ekspresif: "Kelelahan Ekspresif",
-  spiritual: "Kelelahan Spiritual"
-};
-
-/* ===============================
+/* ======================================================
    INIT
-=============================== */
+====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
 
   /* ---------- SCREEN 1 ---------- */
@@ -60,14 +47,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const ageInput = document.getElementById("age");
   const btnNextProfile = document.getElementById("btnNextProfile");
 
-  function checkProfile() {
+  function checkProfileFilled() {
+    if (!btnNextProfile) return;
     btnNextProfile.disabled = !(nameInput.value.trim() && ageInput.value.trim());
   }
 
-  nameInput.addEventListener("input", checkProfile);
-  ageInput.addEventListener("input", checkProfile);
+  nameInput?.addEventListener("input", checkProfileFilled);
+  ageInput?.addEventListener("input", checkProfileFilled);
 
-  btnNextProfile.addEventListener("click", () => {
+  btnNextProfile?.addEventListener("click", () => {
     state.name = nameInput.value.trim();
     state.age = ageInput.value.trim();
     goTo(3);
@@ -78,8 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const customRole = document.getElementById("customRole");
   const btnStart = document.getElementById("btnStart");
 
-  customRole.style.display = "none";
-  btnStart.disabled = true;
+  if (customRole) customRole.style.display = "none";
+  if (btnStart) btnStart.disabled = true;
 
   roleOptions.forEach(opt => {
     opt.addEventListener("click", () => {
@@ -90,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (value === "Lainnya") {
         customRole.style.display = "block";
+        customRole.value = "";
         btnStart.disabled = true;
       } else {
         customRole.style.display = "none";
@@ -99,51 +88,52 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  customRole.addEventListener("input", () => {
-    state.role = customRole.value.trim();
-    btnStart.disabled = !state.role;
+  customRole?.addEventListener("input", () => {
+    if (customRole.value.trim()) {
+      state.role = customRole.value.trim();
+      btnStart.disabled = false;
+    } else {
+      btnStart.disabled = true;
+    }
   });
 
-  btnStart.addEventListener("click", () => goTo(4));
+  btnStart?.addEventListener("click", () => goTo(4));
 
   /* ---------- SCREEN 4 : PERTANYAAN ---------- */
   const questionBox = document.getElementById("questions");
   const btnResult = document.getElementById("btnResult");
-  btnResult.disabled = true;
+  if (btnResult) btnResult.disabled = true;
 
   function checkAllAnswered() {
-    btnResult.disabled =
-      Object.keys(state.answers).length !== questions.length;
+    btnResult.disabled = Object.keys(state.answers).length !== questions.length;
   }
 
   questions.forEach(q => {
     const card = document.createElement("div");
     card.className = "question-card";
 
-    const p = document.createElement("p");
-    p.textContent = q.text;
+    const text = document.createElement("p");
+    text.textContent = q.text;
 
-    const answers = document.createElement("div");
+    const options = document.createElement("div");
 
     ["Ya", "Terkadang", "Tidak"].forEach(label => {
-      const a = document.createElement("div");
-      a.className = "answer";
-      a.textContent = label;
+      const opt = document.createElement("div");
+      opt.className = "answer";
+      opt.textContent = label;
 
-      a.addEventListener("click", () => {
-        answers.querySelectorAll(".answer")
-          .forEach(x => x.classList.remove("selected"));
-        a.classList.add("selected");
-
+      opt.addEventListener("click", () => {
+        options.querySelectorAll(".answer").forEach(a => a.classList.remove("selected"));
+        opt.classList.add("selected");
         state.answers[q.id] = label;
         checkAllAnswered();
       });
 
-      answers.appendChild(a);
+      options.appendChild(opt);
     });
 
-    card.appendChild(p);
-    card.appendChild(answers);
+    card.appendChild(text);
+    card.appendChild(options);
     questionBox.appendChild(card);
   });
 
@@ -152,155 +142,142 @@ document.addEventListener("DOMContentLoaded", () => {
     const scores = {};
 
     questions.forEach(q => {
-      const val = SCORE_MAP[state.answers[q.id]] || 0;
-      scores[q.dimension] = (scores[q.dimension] || 0) + val;
+      const answer = state.answers[q.id];
+      const value = SCORE_MAP[answer] || 0;
+      scores[q.dimension] = (scores[q.dimension] || 0) + value;
     });
 
-    state.dominant = Object.keys(scores)
-      .reduce((a, b) => scores[a] > scores[b] ? a : b);
+    let max = -1;
+    let dominant = "";
+
+    Object.entries(scores).forEach(([dim, score]) => {
+      if (score > max) {
+        max = score;
+        dominant = dim;
+      }
+    });
+
+    state.dominant = dominant;
   }
 
-  /* ---------- SCREEN 5 : REFLEKSI ---------- */
+  /* ---------- REFLEKSI ---------- */
   function renderReflection() {
     const box = document.getElementById("reflection");
-    if (!box) return;
+
+    const titles = {
+      fisik: "Istirahat Fisik",
+      pikiran: "Istirahat Mental",
+      emosional: "Istirahat Emosional",
+      sensorik: "Istirahat Sensorik",
+      relasi: "Istirahat Relasi",
+      ekspresif: "Istirahat Ekspresif",
+      spiritual: "Istirahat Spiritual"
+    };
 
     const reflections = {
       fisik: `
-        <p>🌿 Tubuh Anda terlihat sudah bekerja cukup lama tanpa banyak jeda.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Pelankan ritme dan beri tubuh ruang bernapas.</p>
+      🌿 Tubuh Anda terlihat sudah bekerja cukup lama tanpa banyak jeda.
+      Mungkin bukan karena aktivitas berat, tetapi karena terus berjalan tanpa benar-benar berhenti.
+      <br><br>
+      <strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Pelankan ritme dan beri tubuh ruang untuk bernapas.
       `,
       pikiran: `
-        <p>🕊️ Pikiran Anda tampaknya jarang benar-benar berhenti.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Tidak semua hal harus dipikirkan hari ini.</p>
+      🕊️ Pikiran Anda tampaknya jarang benar-benar berhenti.
+      Bahkan saat diam, kepala masih penuh oleh banyak hal.
+      <br><br>
+      <strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Tidak semua hal harus dipikirkan hari ini.
       `,
       emosional: `
-        <p>💛 Ada perasaan yang mungkin selama ini Anda simpan sendiri.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Akui dulu apa yang dirasakan.</p>
+      💛 Ada perasaan yang mungkin selama ini Anda simpan sendiri.
+      Bukan karena tidak mau berbagi, tapi karena sudah terbiasa menahan.
+      <br><br>
+      <strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Akui dulu apa yang sedang dirasakan.
       `,
       sensorik: `
-        <p>🌱 Indra Anda mungkin sudah terlalu lama sibuk.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Beri mata dan telinga jeda.</p>
+      🌱 Indra Anda mungkin sudah terlalu lama sibuk.
+      Layar, suara, dan aktivitas terus-menerus bisa melelahkan tubuh.
+      <br><br>
+      <strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Beri mata dan telinga jeda sejenak.
       `,
       relasi: `
-        <p>🤍 Anda banyak hadir untuk orang lain.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Hadir juga untuk diri sendiri.</p>
+      🤍 Anda banyak hadir untuk orang lain.
+      Kadang tanpa sadar, diri sendiri jadi belakangan.
+      <br><br>
+      <strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Hadir juga untuk diri sendiri.
       `,
       ekspresif: `
-        <p>✨ Sisi kreatif Anda tidak hilang.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Lakukan satu hal kecil yang Anda sukai.</p>
+      ✨ Sisi diri yang menikmati hal-hal sederhana masih ada.
+      Mungkin tertutup oleh kesibukan, bukan hilang.
+      <br><br>
+      <strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Lakukan satu hal kecil yang Anda sukai.
       `,
       spiritual: `
-        <p>🕯️ Ada kerinduan untuk menata arah.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Luangkan waktu hening.</p>
+      🕯️ Ada kerinduan untuk berhenti sejenak dan menata arah.
+      Itu wajar setelah perjalanan panjang.
+      <br><br>
+      <strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Luangkan waktu hening sejenak.
       `
     };
 
-    const label = DIMENSION_LABEL[state.dominant] || "Satu Bagian Diri";
-
     box.innerHTML = `
-      <p><strong>
-        Setiap jawaban yang Anda berikan adalah cerita kecil tentang kondisi Anda saat ini.<br>
+      <p>
+        Setiap jawaban yang Anda berikan adalah cerita kecil tentang kondisi Anda saat ini.
         Dari sana, terlihat satu area yang sedang paling membutuhkan ruang untuk dipedulikan:
-      </strong></p>
-      <p><strong>${label}</strong></p>
-      ${reflections[state.dominant]}
+        <strong>${titles[state.dominant]}</strong>.
+      </p>
+      <p>${reflections[state.dominant]}</p>
     `;
   }
 
-  /* ---------- SCREEN 7 : PROGRAM 5 HARI ---------- */
-  function renderProgramDays() {
-    const container = document.getElementById("programDays");
-    if (!container) return;
-
-    const program = programs[state.dominant];
-    if (!program) {
-      container.innerHTML = "<p>Program belum tersedia.</p>";
-      return;
-    }
-
-    container.innerHTML = `
-      <h3>${program.title}</h3>
-      <p class="soft">
-        Mulailah dengan Hari 1. Hari berikutnya akan terbuka secara bertahap,
-        mengikuti ritme pemulihan Anda.
-      </p>
-    `;
-
-    program.days.forEach(day => {
-      const card = document.createElement("div");
-      card.className = "day-card";
-
-      if (day.day > state.currentDay) {
-        card.classList.add("locked");
-        card.innerHTML = `
-          <h4>Hari ${day.day} — ${day.title}</h4>
-          <p class="soft">Terkunci</p>
-        `;
-      } else {
-        card.innerHTML = `
-          <h4>Hari ${day.day} — ${day.title}</h4>
-          <p><strong>Aktivitas:</strong> ${day.activity}</p>
-          <ul>${day.guide.map(g => `<li>${g}</li>`).join("")}</ul>
-          <button class="primary" id="finish-day-${day.day}">
-            Saya sudah menyelesaikan hari ini
-          </button>
-        `;
-      }
-
-      container.appendChild(card);
-    });
-
-    attachFinishHandler();
-  }
-
-  function attachFinishHandler() {
-    const btn = document.getElementById(`finish-day-${state.currentDay}`);
-    if (!btn) return;
-
-    btn.addEventListener("click", () => {
-      state.currentDay++;
-      if (state.currentDay <= 5) {
-        renderProgramDays();
-      } else {
-        showCompletionMessage();
-      }
-    });
-  }
-
-  function showCompletionMessage() {
-    const container = document.getElementById("programDays");
-    container.innerHTML = `
-      <h3>🌱 Terima kasih telah berjalan sejauh ini</h3>
-      <p>
-        Anda telah menyelesaikan perjalanan 5 hari pemulihan
-        dengan ritme Anda sendiri.
-      </p>
-      <p>
-        Bagaimana perjalanan Anda bersama kami?
-        Jika ingin melanjutkan, kami siap menemani langkah berikutnya.
-      </p>
-    `;
-  }
-
-  /* ---------- EVENT TOMBOL ---------- */
-  btnResult.addEventListener("click", () => {
+  btnResult?.addEventListener("click", () => {
     calculateResult();
     renderReflection();
     goTo(5);
   });
 
-  document.querySelector("#screen-6 button.primary")
-    .addEventListener("click", () => {
-      goTo(7);
-      renderProgramDays();
-    });
+  /* ---------- SCREEN 6 : SUBMIT HP ---------- */
+  const btnSubmitPhone = document.getElementById("btnSubmitPhone");
+  const phoneInput = document.getElementById("phone");
+
+  btnSubmitPhone?.addEventListener("click", () => {
+    if (!phoneInput.value.trim()) {
+      alert("Silakan masukkan nomor HP Anda 🤍");
+      return;
+    }
+    state.phone = phoneInput.value.trim();
+    goTo(7);
+    renderProgramDays();
+  });
 
 });
+
+/* ======================================================
+   PROGRAM 5 HARI (DAY 1 TERBUKA)
+====================================================== */
+function renderProgramDays() {
+  const container = document.getElementById("programDays");
+  container.innerHTML = "";
+
+  const program = programs[state.dominant];
+
+  program.forEach((day, index) => {
+    const card = document.createElement("div");
+    card.className = "day-card";
+    if (index > 0) card.classList.add("locked");
+
+    card.innerHTML = `
+      <h3>Hari ${index + 1} — ${day.title}</h3>
+      <p><strong>Aktivitas:</strong> ${day.activity}</p>
+      <p>${day.guide}</p>
+    `;
+
+    container.appendChild(card);
+  });
+}
