@@ -569,7 +569,7 @@ function renderProgramDays() {
   if (!container) return;
 
   container.innerHTML = "";
-  const program = PROGRAMS[state.dominant];
+  const program = programs[state.dominant];
   if (!program) return;
 
   program.forEach((day, i) => {
@@ -602,4 +602,17 @@ function renderProgramDays() {
 
     container.appendChild(card);
   });
+}
+function renderProgramDays() {
+  const container = document.getElementById("programDays");
+  if (!container) return;
+
+  if (!state.dominant) {
+    container.innerHTML = "<p>Program belum tersedia.</p>";
+    return;
+  }
+
+  container.innerHTML = "";
+  const program = programs[state.dominant];
+  if (!program) return;
 }
