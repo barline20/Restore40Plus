@@ -390,6 +390,9 @@ if (dayNum === 5) {
 
       btnSubmit.addEventListener("click", () => {
         state.day5Reflection = textArea.value.trim();
+
+        sendToGoogleSheets();
+        
         goTo(8);
       });
     }, 0);
@@ -417,3 +420,29 @@ if (dayNum === 5) {
 
     container.appendChild(card);
   };
+function sendToGoogleSheets() {
+  const payload = {
+    name: state.name,
+    age: state.age,
+    role: state.role,
+    phone: state.phone,
+    dominant: state.dominant,
+    answers: state.answers,
+    day5Reflection: state.day5Reflection
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbytDBNL6MdEGJy1qFTef3AjXcwufiNvr8lVXlF8aeQXdfsgnk9KKfkQKvr_JyRKejO8/exec", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("✅ Data berhasil dikirim ke Google Sheets", data);
+  })
+  .catch(err => {
+    console.error("❌ Gagal kirim data ke Google Sheets", err);
+  });
+}
