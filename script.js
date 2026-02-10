@@ -9,7 +9,8 @@ const state = {
   answers: {},
   dominant: null,
   currentDay: 1,
-  currentOpenDay:null
+  currentOpenDay: null,
+  day5Reflection: ""
 };
 
 /* ======================================================
@@ -291,34 +292,73 @@ function renderProgramDays() {
       renderProgramDays();
     });
   }
-
   // ISI AKTIVITAS (HANYA JIKA OPEN)
-  if (isOpen && !locked) {
-    const content = document.createElement("div");
+if (isOpen && !locked) {
+  const content = document.createElement("div");
 
+  // DAY 1–4
+  if (dayNum < 5) {
     content.innerHTML = `
       <p><strong>Aktivitas:</strong> ${day.activity}</p>
       <p>${day.guide}</p>
     `;
 
-    // BUTTON (DAY 1–4)
-    if (dayNum < 5) {
-      const btn = document.createElement("button");
-      btn.className = "primary";
-      btn.textContent = "Saya sudah melakukan ini";
+    const btn = document.createElement("button");
+    btn.className = "primary";
+    btn.textContent = "Saya sudah melakukan ini";
 
-      btn.addEventListener("click", () => {
-        state.currentDay++;
-        state.currentOpenDay = null;
-        renderProgramDays();
-      });
+    btn.addEventListener("click", () => {
+      state.currentDay++;
+      state.currentOpenDay = null;
+      renderProgramDays();
+    });
 
-      content.appendChild(btn);
-    }
-
-    card.appendChild(content);
+    content.appendChild(btn);
   }
 
+  // DAY 5 — REFLEKSI PENUTUP
+  if (dayNum === 5) {
+    content.innerHTML = `
+      <p class="soft">
+        🤍 Terima kasih telah berjalan bersama saya.<br>
+        Menjalani lima hari ini bukan hal yang ringan.
+        Setiap langkah kecil yang Anda ambil adalah bentuk kepedulian
+        pada diri sendiri.
+      </p>
+
+      <p>
+        Sebelum kita melangkah lebih jauh,
+        saya ingin mendengar dari Anda.
+      </p>
+
+      <p><strong>
+        Bagaimana perasaan Anda setelah menjalani perjalanan 5 hari ini?
+      </strong></p>
+
+      <textarea id="day5Text" rows="4"
+        placeholder="Silakan tuliskan dengan jujur, tidak ada jawaban benar atau salah."
+        style="width:100%; padding:12px; border-radius:12px; border:1px solid #d0d8d0;">
+      </textarea>
+
+      <button id="btnDay5Submit" class="primary">
+        Lanjut
+      </button>
+    `;
+
+    // HANDLE SUBMIT DAY 5
+    setTimeout(() => {
+      const btnSubmit = document.getElementById("btnDay5Submit");
+      const textArea = document.getElementById("day5Text");
+
+      btnSubmit.addEventListener("click", () => {
+        state.day5Reflection = textArea.value.trim();
+        goTo(8); // Screen Kado
+      });
+    }, 0);
+  }
+
+  card.appendChild(content);
+}
   // LOCKED MESSAGE
   if (locked) {
     const lockMsg = document.createElement("p");
