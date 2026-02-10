@@ -11,20 +11,40 @@ const state = {
 };
 
 /* ======================================================
-   NAVIGASI SCREEN + AUTOSAVE
+   LOCAL STORAGE (AUTOSAVE)
+====================================================== */
+function saveState() {
+  localStorage.setItem("restore40_state", JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem("restore40_state");
+  if (saved) {
+    Object.assign(state, JSON.parse(saved));
+  }
+}
+
+function saveScreen(screen) {
+  localStorage.setItem("restore40_screen", screen);
+}
+
+function loadScreen() {
+  return localStorage.getItem("restore40_screen");
+}
+
+/* ======================================================
+   NAVIGASI SCREEN
 ====================================================== */
 window.goTo = function (target) {
-  document.querySelectorAll(".screen").forEach(s =>
-    s.classList.remove("active")
-  );
+  document.querySelectorAll(".screen").forEach(s => {
+    s.classList.remove("active");
+  });
 
   const next = document.getElementById(`screen-${target}`);
   if (next) {
     next.classList.add("active");
     window.scrollTo(0, 0);
-
-    // ✅ SIMPAN SCREEN TERAKHIR
-    localStorage.setItem("restore40_last_screen", target);
+    saveScreen(target);
   }
 };
 
@@ -42,8 +62,10 @@ const SCORE_MAP = {
 ====================================================== */
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ---------- RESTORE SCREEN SAAT REFRESH ---------- */
-  const lastScreen = localStorage.getItem("restore40_last_screen");
+  loadState();
+
+  /* ---------- SCREEN AWAL (RESTORE) ---------- */
+  const lastScreen = loadScreen();
   if (lastScreen) {
     goTo(lastScreen);
   } else {
@@ -55,17 +77,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const ageInput = document.getElementById("age");
   const btnNextProfile = document.getElementById("btnNextProfile");
 
+  if (nameInput) nameInput.value = state.name || "";
+  if (ageInput) ageInput.value = state.age || "";
+
   function checkProfileFilled() {
     if (!btnNextProfile) return;
     btnNextProfile.disabled = !(nameInput.value.trim() && ageInput.value.trim());
   }
 
-  nameInput?.addEventListener("input", checkProfileFilled);
-  ageInput?.addEventListener("input", checkProfileFilled);
+  nameInput?.addEventListener("input", () => {
+    state.name = nameInput.value.trim();
+    saveState();
+    checkProfileFilled();
+  });
+
+  ageInput?.addEventListener("input", () => {
+    state.age = ageInput.value.trim();
+    saveState();
+    checkProfileFilled();
+  });
+
+  checkProfileFilled();
 
   btnNextProfile?.addEventListener("click", () => {
-    state.name = nameInput.value.trim();
-    state.age = ageInput.value.trim();
     goTo(3);
   });
 
@@ -91,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         customRole.style.display = "none";
         state.role = value;
+        saveState();
         btnStart.disabled = false;
       }
     });
@@ -99,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   customRole?.addEventListener("input", () => {
     if (customRole.value.trim()) {
       state.role = customRole.value.trim();
+      saveState();
       btnStart.disabled = false;
     } else {
       btnStart.disabled = true;
@@ -113,11 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnResult) btnResult.disabled = true;
 
   function checkAllAnswered() {
-    btnResult.disabled =
-      Object.keys(state.answers).length !== questions.length;
+    btnResult.disabled = Object.keys(state.answers).length !== questions.length;
   }
 
   if (questionBox && Array.isArray(questions)) {
+    questionBox.innerHTML = "";
+
     questions.forEach(q => {
       const card = document.createElement("div");
       card.className = "question-card";
@@ -132,12 +169,15 @@ document.addEventListener("DOMContentLoaded", () => {
         opt.className = "answer";
         opt.textContent = label;
 
-        opt.addEventListener("click", () => {
-          options.querySelectorAll(".answer")
-            .forEach(a => a.classList.remove("selected"));
+        if (state.answers[q.id] === label) {
           opt.classList.add("selected");
+        }
 
+        opt.addEventListener("click", () => {
+          options.querySelectorAll(".answer").forEach(a => a.classList.remove("selected"));
+          opt.classList.add("selected");
           state.answers[q.id] = label;
+          saveState();
           checkAllAnswered();
         });
 
@@ -150,37 +190,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ---------- HITUNG HASIL ---------- */
+  /* ---------- HITUNG & REFLEKSI ---------- */
   function calculateResult() {
     const scores = {};
 
     questions.forEach(q => {
-      const answer = state.answers[q.id];
-      const value = SCORE_MAP[answer] || 0;
+      const value = SCORE_MAP[state.answers[q.id]] || 0;
       scores[q.dimension] = (scores[q.dimension] || 0) + value;
     });
 
     let max = -1;
     let dominant = "";
 
-    Object.entries(scores).forEach(([dim, score]) => {
-      if (score > max) {
-        max = score;
+    for (const dim in scores) {
+      if (scores[dim] > max) {
+        max = scores[dim];
         dominant = dim;
       }
-    });
+    }
 
     state.dominant = dominant;
+    saveState();
   }
 
-  /* ---------- REFLEKSI ---------- */
   function renderReflection() {
     const box = document.getElementById("reflection");
     if (!box) return;
 
     const titles = {
       fisik: "Istirahat Fisik",
-      pikiran: "Istirahat Mental",
+      pikiran: "Istirahat Pikiran",
       emosional: "Istirahat Emosional",
       sensorik: "Istirahat Sensorik",
       relasi: "Istirahat Relasi",
@@ -203,43 +242,4 @@ document.addEventListener("DOMContentLoaded", () => {
     goTo(5);
   });
 
-  /* ---------- SCREEN 6 : SUBMIT HP ---------- */
-  const btnSubmitPhone = document.getElementById("btnSubmitPhone");
-  const phoneInput = document.getElementById("phone");
-
-  btnSubmitPhone?.addEventListener("click", () => {
-    if (!phoneInput.value.trim()) {
-      alert("Silakan masukkan nomor HP Anda 🤍");
-      return;
-    }
-    state.phone = phoneInput.value.trim();
-    goTo(7);
-    renderProgramDays();
-  });
-
 });
-
-/* ======================================================
-   PROGRAM 5 HARI (DAY 1 TERBUKA, 2–5 LOCKED)
-====================================================== */
-function renderProgramDays() {
-  const container = document.getElementById("programDays");
-  if (!container) return;
-
-  container.innerHTML = "";
-  const program = programs[state.dominant] || [];
-
-  program.forEach((day, index) => {
-    const card = document.createElement("div");
-    card.className = "day-card";
-    if (index > 0) card.classList.add("locked");
-
-    card.innerHTML = `
-      <h3>Hari ${index + 1} — ${day.title}</h3>
-      <p><strong>Aktivitas:</strong> ${day.activity}</p>
-      <p>${day.guide}</p>
-    `;
-
-    container.appendChild(card);
-  });
-}
