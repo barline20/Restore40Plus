@@ -70,8 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   options.forEach(opt => {
     opt.addEventListener("click", () => {
-      options.forEach(o => o.classList.remove("selected"));
+      options.querySelectorAll(".answer")
+       .forEach(a => a.classList.remove("selected"));
       opt.classList.add("selected");
+      
+      // simpan jawaban
+      state.answers[q.id] = opt.textContent;
+      
+      // cek apakah semua sudah dijawab
+      checkAllAnswered();
+});
 
       if (opt.textContent.trim() === "Lainnya") {
         if (customRole) {
@@ -99,4 +107,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-}); 
+; 
+/* ===============================
+   KUNCI PERTANYAAN (SCREEN 4)
+=============================== */
+const btnResult = document.getElementById("btnResult");
+
+// pastikan tombol mati di awal
+if (btnResult) btnResult.disabled = true;
+
+// fungsi cek apakah semua pertanyaan sudah dijawab
+function checkAllAnswered() {
+  if (!btnResult) return;
+
+  const totalQuestions = questions.length;
+  const answeredCount = Object.keys(state.answers).length;
+
+  btnResult.disabled = answeredCount !== totalQuestions;
+}
+if (btnResult) {
+  btnResult.addEventListener("click", () => {
+    goTo(5); // sementara ke screen hasil / placeholder
+  });
+}
