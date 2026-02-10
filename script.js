@@ -399,7 +399,7 @@ function renderProgramDays() {
 }
 function sendToGoogleSheets() {
   // Pastikan URL ini adalah hasil Deployment TERBARU (yang ada ID AKfycbz...)
-  const scriptURL = "https://script.google.com/macros/s/AKfycbzDhVzEo5Y5eJS30KMEgJhJ-j_GIMB6L0XAkBVjRQOEp3ZR0Swsyz5Wlpv2mVW5oETM/exec";
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwTxcIlGU-NqYRuSSx1xKQn6EDsx4YLsc032OfYV2ij3ybNWFGThlmuz0CRQ0YsI698/exec";
 
   const formData = new FormData();
   formData.append("name", state.name);
