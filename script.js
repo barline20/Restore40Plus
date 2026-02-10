@@ -10,7 +10,7 @@ const state = {
 };
 
 /* ===============================
-   NAVIGASI SCREEN (GLOBAL)
+   NAVIGASI SCREEN
 =============================== */
 window.goTo = function (target) {
   document.querySelectorAll(".screen").forEach(s => {
@@ -41,200 +41,131 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ---------- SCREEN 1 ---------- */
   goTo(1);
 
-  const btnConsent = document.getElementById("btnConsent");
-  if (btnConsent) {
-    btnConsent.addEventListener("click", () => goTo(2));
-  }
-
   /* ---------- SCREEN 2 ---------- */
   const nameInput = document.getElementById("name");
   const ageInput = document.getElementById("age");
   const btnNextProfile = document.getElementById("btnNextProfile");
 
-  function checkProfileFilled() {
-    if (!btnNextProfile) return;
+  function checkProfile() {
     btnNextProfile.disabled = !(nameInput.value.trim() && ageInput.value.trim());
   }
 
-  if (nameInput && ageInput) {
-    nameInput.addEventListener("input", checkProfileFilled);
-    ageInput.addEventListener("input", checkProfileFilled);
-  }
+  nameInput.addEventListener("input", checkProfile);
+  ageInput.addEventListener("input", checkProfile);
 
-  if (btnNextProfile) {
-    btnNextProfile.addEventListener("click", () => {
-      state.name = nameInput.value.trim();
-      state.age = ageInput.value.trim();
-      goTo(3);
-    });
-  }
+  btnNextProfile.addEventListener("click", () => {
+    state.name = nameInput.value.trim();
+    state.age = ageInput.value.trim();
+    goTo(3);
+  });
 
-  /* ---------- SCREEN 3 : PERAN ---------- */
+  /* ---------- SCREEN 3 ---------- */
   const roleOptions = document.querySelectorAll("#screen-3 .option");
   const customRole = document.getElementById("customRole");
   const btnStart = document.getElementById("btnStart");
 
-  if (customRole) customRole.style.display = "none";
-  if (btnStart) btnStart.disabled = true;
+  customRole.style.display = "none";
+  btnStart.disabled = true;
 
   roleOptions.forEach(opt => {
     opt.addEventListener("click", () => {
       roleOptions.forEach(o => o.classList.remove("selected"));
       opt.classList.add("selected");
 
-      const value = opt.textContent.trim();
-
-      if (value === "Lainnya") {
+      if (opt.textContent.trim() === "Lainnya") {
         customRole.style.display = "block";
-        customRole.value = "";
         btnStart.disabled = true;
       } else {
         customRole.style.display = "none";
-        state.role = value;
+        state.role = opt.textContent.trim();
         btnStart.disabled = false;
       }
     });
   });
 
-  if (customRole) {
-    customRole.addEventListener("input", () => {
-      if (customRole.value.trim()) {
-        state.role = customRole.value.trim();
-        btnStart.disabled = false;
-      } else {
-        btnStart.disabled = true;
-      }
-    });
-  }
+  customRole.addEventListener("input", () => {
+    state.role = customRole.value.trim();
+    btnStart.disabled = !state.role;
+  });
 
-  if (btnStart) {
-    btnStart.addEventListener("click", () => goTo(4));
-  }
+  btnStart.addEventListener("click", () => goTo(4));
 
   /* ---------- SCREEN 4 : PERTANYAAN ---------- */
   const questionBox = document.getElementById("questions");
   const btnResult = document.getElementById("btnResult");
-
-  if (btnResult) btnResult.disabled = true;
+  btnResult.disabled = true;
 
   function checkAllAnswered() {
-    if (!btnResult) return;
-    btnResult.disabled = Object.keys(state.answers).length !== questions.length;
+    btnResult.disabled =
+      Object.keys(state.answers).length !== questions.length;
   }
 
-  if (questionBox && Array.isArray(questions)) {
-    questions.forEach(q => {
-      const card = document.createElement("div");
-      card.className = "question-card";
+  questions.forEach(q => {
+    const card = document.createElement("div");
+    card.className = "question-card";
 
-      const text = document.createElement("p");
-      text.textContent = q.text;
+    const p = document.createElement("p");
+    p.textContent = q.text;
 
-      const options = document.createElement("div");
+    const answers = document.createElement("div");
 
-      ["Ya", "Terkadang", "Tidak"].forEach(label => {
-        const opt = document.createElement("div");
-        opt.className = "answer";
-        opt.textContent = label;
+    ["Ya", "Terkadang", "Tidak"].forEach(label => {
+      const a = document.createElement("div");
+      a.className = "answer";
+      a.textContent = label;
 
-        opt.addEventListener("click", () => {
-          options.querySelectorAll(".answer")
-            .forEach(a => a.classList.remove("selected"));
-          opt.classList.add("selected");
+      a.addEventListener("click", () => {
+        answers.querySelectorAll(".answer")
+          .forEach(x => x.classList.remove("selected"));
+        a.classList.add("selected");
 
-          state.answers[q.id] = label;
-          checkAllAnswered();
-        });
-
-        options.appendChild(opt);
+        state.answers[q.id] = label;
+        checkAllAnswered();
       });
 
-      card.appendChild(text);
-      card.appendChild(options);
-      questionBox.appendChild(card);
+      answers.appendChild(a);
     });
-  }
 
-  /* ---------- HITUNG HASIL ---------- */
+    card.appendChild(p);
+    card.appendChild(answers);
+    questionBox.appendChild(card);
+  });
+
+  /* ---------- HASIL ---------- */
   function calculateResult() {
     const scores = {};
 
     questions.forEach(q => {
-      const answerText = state.answers[q.id];
-      const value = SCORE_MAP[answerText] || 0;
-
-      if (!scores[q.dimension]) scores[q.dimension] = 0;
-      scores[q.dimension] += value;
+      const val = SCORE_MAP[state.answers[q.id]] || 0;
+      scores[q.dimension] = (scores[q.dimension] || 0) + val;
     });
 
-    let dominant = "";
-    let maxScore = -1;
-
-    for (const dim in scores) {
-      if (scores[dim] > maxScore) {
-        maxScore = scores[dim];
-        dominant = dim;
-      }
-    }
-
-    state.dominant = dominant;
+    state.dominant = Object.keys(scores)
+      .reduce((a, b) => scores[a] > scores[b] ? a : b);
   }
 
-  /* ---------- REFLEKSI ---------- */
   function renderReflection() {
     const box = document.getElementById("reflection");
-    if (!box) return;
 
     const reflections = {
-      fisik: `
-        <p>🌿 Tubuh Anda terlihat sudah bekerja cukup lama tanpa banyak jeda.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Pelankan ritme dan beri tubuh ruang untuk bernapas.</p>
-      `,
-      pikiran: `
-        <p>🕊️ Pikiran Anda tampaknya jarang benar-benar berhenti.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Tidak semua hal harus dipikirkan hari ini.</p>
-      `,
-      emosional: `
-        <p>💛 Ada perasaan yang mungkin selama ini Anda tahan sendiri.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Akui dulu apa yang dirasakan.</p>
-      `,
-      sensorik: `
-        <p>🌱 Indra Anda mungkin sudah terlalu lama sibuk.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Beri mata dan telinga jeda sejenak.</p>
-      `,
-      relasi: `
-        <p>🤍 Anda banyak hadir untuk orang lain.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Hadir juga untuk diri sendiri.</p>
-      `,
-      ekspresif: `
-        <p>✨ Sisi kreatif Anda tidak hilang.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Lakukan satu hal kecil yang Anda sukai.</p>
-      `,
-      spiritual: `
-        <p>🕯️ Ada kerinduan untuk menata ulang arah hidup.</p>
-        <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Luangkan waktu hening sejenak.</p>
-      `
+      fisik: "🌿 Tubuh Anda terlihat sudah bekerja cukup lama tanpa banyak jeda.",
+      pikiran: "🕊️ Pikiran Anda tampaknya jarang benar-benar berhenti.",
+      emosional: "💛 Ada perasaan yang mungkin selama ini Anda tahan sendiri.",
+      sensorik: "🌱 Indra Anda mungkin sudah terlalu lama sibuk.",
+      relasi: "🤍 Anda banyak hadir untuk orang lain.",
+      ekspresif: "✨ Bagian diri Anda yang menikmati hal sederhana masih ada.",
+      spiritual: "🕯️ Ada kerinduan untuk menata arah."
     };
 
     box.innerHTML = `
-      <p><strong>Area yang paling membutuhkan perhatian:</strong></p>
-      ${reflections[state.dominant] || "<p>Terima kasih sudah merefleksikan diri hari ini.</p>"}
+      <p><strong>Area utama yang menonjol:</strong></p>
+      <p>${reflections[state.dominant]}</p>
     `;
   }
 
-  if (btnResult) {
-    btnResult.addEventListener("click", () => {
-      calculateResult();
-      renderReflection();
-      goTo(5);
-    });
-  }
-
+  btnResult.addEventListener("click", () => {
+    calculateResult();
+    renderReflection();
+    goTo(5);
+  });
 });
