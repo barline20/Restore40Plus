@@ -4,31 +4,31 @@ const programs = {
       title: "Mengenali Lelah Tubuh",
       activity: "Check-in tubuh",
       guide:
-        "Luangkan 5 menit untuk duduk tenang. Perhatikan bagian tubuh mana yang terasa paling lelah, tanpa perlu mengubah apa pun."
+        "Luangkan sekitar lima menit untuk duduk dengan tenang. Arahkan perhatian Anda ke tubuh, dan perhatikan bagian mana yang terasa paling lelah. Tidak perlu mengubah atau memperbaiki apa pun—cukup sadari, dan izinkan tubuh didengar."
     },
     {
       title: "Melambat dengan Lembut",
       activity: "Gerakan ringan",
       guide:
-        "Lakukan peregangan sederhana atau berjalan pelan selama 10 menit. Tidak perlu kuat, cukup hadir."
+        "Lakukan gerakan sederhana seperti peregangan ringan atau berjalan pelan selama kurang lebih sepuluh menit. Tidak perlu memaksakan diri atau mengejar hasil. Hadirlah sepenuhnya, dan biarkan tubuh bergerak dengan ritmenya sendiri."
     },
     {
       title: "Memberi Jeda",
       activity: "Istirahat sadar",
       guide:
-        "Ambil satu jeda singkat hari ini. Rebahan, tarik napas perlahan, dan izinkan tubuh berhenti sejenak."
+        "Ambil satu jeda singkat hari ini, meski hanya beberapa menit. Berbaring atau duduklah dengan nyaman, tarik napas perlahan, dan izinkan tubuh benar-benar berhenti sejenak tanpa rasa bersalah."
     },
     {
       title: "Mendengarkan Tubuh",
       activity: "Respons tubuh",
       guide:
-        "Saat tubuh memberi sinyal lelah, coba ikuti. Mungkin tidur lebih awal atau menunda satu aktivitas."
+        "Ketika tubuh memberi sinyal lelah, cobalah untuk mendengarkannya. Mungkin itu berarti tidur lebih awal, menunda satu aktivitas, atau sekadar memperlambat langkah. Mengikuti tubuh juga adalah bentuk kepedulian."
     },
     {
       title: "Merawat dengan Syukur",
       activity: "Self-care kecil",
       guide:
-        "Lakukan satu hal sederhana untuk tubuh Anda hari ini. Tidak harus produktif, cukup menenangkan."
+        "Lakukan satu hal sederhana untuk merawat tubuh Anda hari ini. Tidak harus produktif atau sempurna. Cukup sesuatu yang memberi rasa nyaman dan menenangkan, sebagai ungkapan syukur pada diri sendiri."
     }
   ],
 
@@ -37,31 +37,31 @@ const programs = {
       title: "Mengurangi Beban Kepala",
       activity: "Menulis bebas",
       guide:
-        "Tuliskan semua yang ada di kepala Anda selama 5 menit. Tidak perlu rapi atau masuk akal."
+        "Selama lima menit, tuliskan apa pun yang ada di kepala Anda. Tidak perlu rapi, tidak perlu masuk akal. Biarkan pikiran keluar dari kepala dan berpindah ke kertas, tanpa disaring atau dinilai."
     },
     {
       title: "Diam yang Aman",
       activity: "Duduk hening",
       guide:
-        "Duduk diam selama beberapa menit. Biarkan pikiran lewat tanpa harus diikuti."
+        "Duduklah dengan tenang selama beberapa menit. Biarkan pikiran datang dan pergi tanpa harus diikuti. Anda tidak perlu mengusirnya—cukup menyadari bahwa Anda aman untuk diam."
     },
     {
       title: "Satu Fokus Kecil",
       activity: "Prioritas ringan",
       guide:
-        "Hari ini, cukup pilih satu hal kecil untuk diselesaikan. Yang lain boleh menunggu."
+        "Hari ini, pilih satu hal kecil saja untuk menjadi fokus Anda. Tidak perlu menyelesaikan semuanya. Yang lain boleh menunggu, dan itu tidak apa-apa."
     },
     {
       title: "Melepas Tekanan",
       activity: "Tarik napas",
       guide:
-        "Tarik napas dalam 4 hitungan, hembuskan 6 hitungan. Ulangi beberapa kali."
+        "Tarik napas perlahan selama empat hitungan, lalu hembuskan selama enam hitungan. Lakukan beberapa kali dengan lembut. Biarkan napas membantu pikiran sedikit melonggar."
     },
     {
       title: "Memberi Ruang",
       activity: "Membiarkan",
       guide:
-        "Izinkan pikiran Anda tidak harus produktif hari ini. Diam juga boleh."
+        "Izinkan pikiran Anda hari ini tidak harus produktif atau teratur. Tidak apa-apa jika terasa kosong atau diam. Memberi ruang juga bagian dari pemulihan."
     }
   ],
 
@@ -70,31 +70,31 @@ const programs = {
       title: "Menyadari Perasaan",
       activity: "Check-in emosi",
       guide:
-        "Tanyakan pada diri sendiri: ‘Apa yang sedang saya rasakan?’ Tidak perlu dijawab dengan benar."
+        "Tanyakan dengan lembut pada diri sendiri, ‘Apa yang sedang saya rasakan saat ini?’ Tidak perlu jawaban yang tepat atau rapi. Cukup sadari apa pun yang muncul."
     },
     {
       title: "Mengizinkan Emosi Ada",
       activity: "Diam bersama perasaan",
       guide:
-        "Biarkan perasaan hadir tanpa dihakimi. Tidak perlu diperbaiki."
+        "Biarkan perasaan hadir apa adanya, tanpa dihakimi atau diperbaiki. Anda tidak perlu melakukan apa pun. Kehadiran saja sudah cukup."
     },
     {
       title: "Menulis Perasaan",
       activity: "Ekspresi emosi",
       guide:
-        "Tuliskan perasaan Anda hari ini, meskipun terasa berantakan."
+        "Tuliskan perasaan Anda hari ini dengan jujur. Tidak masalah jika terasa berantakan atau tidak runtut. Tulisan ini hanya untuk Anda."
     },
     {
       title: "Belas Kasih pada Diri",
       activity: "Self-kindness",
       guide:
-        "Ucapkan satu kalimat lembut pada diri sendiri, seperti pada sahabat."
+        "Ucapkan satu kalimat yang lembut pada diri sendiri, seolah Anda sedang berbicara pada seorang sahabat. Biarkan kata-kata itu menenangkan, bukan menuntut."
     },
     {
       title: "Menguatkan Diri",
       activity: "Apresiasi kecil",
       guide:
-        "Akui satu hal kecil yang sudah Anda lewati hari ini."
+        "Akui satu hal kecil yang berhasil Anda lewati hari ini. Tidak harus besar atau istimewa. Bertahan pun sudah layak dihargai."
     }
   ],
 
@@ -103,31 +103,31 @@ const programs = {
       title: "Memberi Jeda Indra",
       activity: "Puasa layar",
       guide:
-        "Jauhkan diri dari layar selama 30 menit. Tidak apa-apa jika terasa canggung."
+        "Cobalah menjauh dari layar selama sekitar tiga puluh menit. Mungkin terasa canggung di awal, dan itu wajar. Izinkan indra Anda beristirahat dari rangsangan yang terus-menerus."
     },
     {
       title: "Keheningan",
       activity: "Sunyi sejenak",
       guide:
-        "Cari tempat tenang dan dengarkan suara sekitar tanpa distraksi."
+        "Temukan tempat yang relatif tenang, lalu dengarkan suara di sekitar Anda. Tidak perlu menganalisis atau menilai. Biarkan keheningan menemani Anda sejenak."
     },
     {
       title: "Cahaya Lembut",
       activity: "Menata ruang",
       guide:
-        "Redupkan cahaya atau cari pencahayaan yang lebih nyaman."
+        "Perhatikan pencahayaan di sekitar Anda. Redupkan lampu atau cari cahaya yang lebih lembut. Perubahan kecil ini bisa memberi rasa nyaman pada tubuh dan mata."
     },
     {
       title: "Suara Menenangkan",
       activity: "Audio lembut",
       guide:
-        "Dengarkan musik atau suara alam tanpa melakukan hal lain."
+        "Dengarkan musik atau suara alam yang menenangkan. Usahakan tidak melakukan hal lain bersamaan. Biarkan suara tersebut menjadi satu-satunya fokus Anda."
     },
     {
       title: "Ruang Aman",
       activity: "Sudut nyaman",
       guide:
-        "Ciptakan satu sudut kecil yang terasa aman dan tenang."
+        "Ciptakan satu sudut kecil yang terasa aman dan menenangkan. Tidak perlu sempurna. Cukup tempat di mana Anda bisa bernapas lebih lega."
     }
   ],
 
@@ -136,31 +136,31 @@ const programs = {
       title: "Mengakui Lelah Relasi",
       activity: "Refleksi relasi",
       guide:
-        "Sadari relasi mana yang terasa menguras, tanpa menyalahkan siapa pun."
+        "Luangkan waktu untuk menyadari relasi mana yang terasa menguras energi. Tidak perlu menyalahkan siapa pun. Mengenali saja sudah merupakan langkah penting."
     },
     {
       title: "Berbagi Aman",
       activity: "Percakapan jujur",
       guide:
-        "Jika memungkinkan, ceritakan perasaan Anda pada orang yang dipercaya."
+        "Jika memungkinkan, ceritakan perasaan Anda pada seseorang yang Anda percaya. Tidak perlu solusi atau nasihat. Didengarkan saja sudah cukup."
     },
     {
       title: "Mengambil Jeda",
       activity: "Menarik jarak",
       guide:
-        "Hari ini, tidak apa-apa untuk tidak selalu tersedia bagi semua orang."
+        "Hari ini, tidak apa-apa jika Anda tidak selalu tersedia untuk semua orang. Mengambil jarak sejenak bukan berarti menjauh, melainkan merawat diri."
     },
     {
       title: "Hadir Tanpa Peran",
       activity: "Kebersamaan sederhana",
       guide:
-        "Habiskan waktu bersama seseorang tanpa harus menjadi ‘apa-apa’."
+        "Habiskan waktu bersama seseorang tanpa harus menjalankan peran apa pun. Tidak perlu menjadi kuat, bijak, atau berguna. Hadir saja sudah cukup."
     },
     {
       title: "Merasa Ditemani",
       activity: "Mengingat kehangatan",
       guide:
-        "Ingat satu relasi yang membuat Anda merasa diterima apa adanya."
+        "Ingat kembali satu relasi yang membuat Anda merasa diterima apa adanya. Biarkan ingatan itu memberi rasa hangat dan aman."
     }
   ],
 
@@ -169,31 +169,31 @@ const programs = {
       title: "Ekspresi Bebas",
       activity: "Menulis / menggambar",
       guide:
-        "Ekspresikan diri tanpa tujuan. Tidak harus bagus."
+        "Ekspresikan apa pun yang ada di dalam diri Anda melalui tulisan atau gambar. Tidak perlu tujuan atau hasil yang bagus. Prosesnya jauh lebih penting."
     },
     {
       title: "Suara & Musik",
       activity: "Mendengar lagu",
       guide:
-        "Dengarkan satu lagu yang Anda suka, dengan penuh perhatian."
+        "Pilih satu lagu yang Anda sukai, lalu dengarkan dengan penuh perhatian. Rasakan nada, lirik, dan suasana yang muncul, tanpa tergesa-gesa."
     },
     {
       title: "Aktivitas Tangan",
       activity: "Proses sederhana",
       guide:
-        "Lakukan aktivitas manual seperti memasak atau merapikan sesuatu."
+        "Lakukan aktivitas sederhana yang melibatkan tangan, seperti memasak atau merapikan sesuatu. Biarkan gerakan kecil ini membantu Anda kembali hadir."
     },
     {
       title: "Menikmati Keindahan",
       activity: "Mengamati",
       guide:
-        "Perhatikan hal kecil yang indah hari ini, tanpa menganalisis."
+        "Perhatikan satu hal kecil yang terasa indah hari ini. Tidak perlu dianalisis atau dijelaskan. Cukup dilihat dan dirasakan."
     },
     {
       title: "Merayakan Hidup",
       activity: "Hal yang disukai",
       guide:
-        "Lakukan satu hal yang Anda nikmati, tanpa rasa bersalah."
+        "Lakukan satu hal yang benar-benar Anda nikmati hari ini. Izinkan diri Anda menikmatinya tanpa rasa bersalah atau tuntutan."
     }
   ],
 
@@ -202,31 +202,31 @@ const programs = {
       title: "Hadir dengan Diri",
       activity: "Refleksi hening",
       guide:
-        "Duduk diam dan sadari keberadaan Anda saat ini."
+        "Duduklah dengan tenang dan sadari keberadaan Anda saat ini. Tidak perlu mencapai apa pun. Cukup hadir, bernapas, dan menyadari diri."
     },
     {
       title: "Keheningan",
       activity: "Diam sadar",
       guide:
-        "Bernapas perlahan sambil membiarkan keheningan menemani."
+        "Bernapaslah perlahan sambil membiarkan keheningan menemani Anda. Tidak perlu mengisi ruang ini dengan kata atau pikiran."
     },
     {
       title: "Doa / Refleksi",
       activity: "Ungkapan hati",
       guide:
-        "Sampaikan isi hati Anda dengan jujur, apa adanya."
+        "Sampaikan isi hati Anda dengan jujur, apa adanya. Tidak perlu kata-kata indah. Ketulusan jauh lebih penting."
     },
     {
       title: "Menata Arah",
       activity: "Makna kecil",
       guide:
-        "Pikirkan satu hal yang terasa bermakna bagi Anda hari ini."
+        "Pikirkan satu hal kecil yang terasa bermakna bagi Anda hari ini. Tidak harus besar atau mengubah hidup. Cukup sesuatu yang memberi arah."
     },
     {
       title: "Syukur Sederhana",
       activity: "Menyebutkan syukur",
       guide:
-        "Sebutkan tiga hal kecil yang patut disyukuri."
+        "Sebutkan tiga hal kecil yang patut Anda syukuri hari ini. Biarkan rasa syukur hadir dengan lembut, tanpa paksaan."
     }
   ]
 };
