@@ -408,18 +408,30 @@ function sendToGoogleSheets() {
     day5Reflection: state.day5Reflection
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbytDBNL6MdEGJy1qFTef3AjXcwufiNvr8lVXlF8aeQXdfsgnk9KKfkQKvr_JyRKejO8/exec", {
+  function sendToGoogleSheets() {
+  const payload = {
+    name: state.name,
+    age: state.age,
+    role: state.role,
+    phone: state.phone,
+    dominant: state.dominant,
+    answers: state.answers,
+    day5Reflection: state.day5Reflection
+  };
+
+  // Gunakan URL Web App TERBARU hasil Re-deploy tadi
+  const scriptURL = "https://script.google.com/macros/s/AKfycbytDBNL6MdEGJy1qFTef3AjXcwufiNvr8lVXlF8aeQXdfsgnk9KKfkQKvr_JyRKejO8/exec";
+
+  fetch(scriptURL, {
     method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
+    // Kita hapus mode: "no-cors" dan headers agar menggunakan default browser yang lebih aman untuk Apps Script
   })
-  .then(() => {
-    console.log("✅ Data terkirim ke Google Sheets");
+  .then(res => {
+    console.log("✅ Data berhasil dikirim");
   })
   .catch(err => {
-    console.error("❌ Gagal kirim data", err);
+    console.error("❌ Gagal!", err);
+    // Opsional: Tetap pindah screen meskipun gagal kirim agar user tidak bingung
   });
 }
