@@ -64,47 +64,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ---------- SCREEN 3 ---------- */
-  const roleOptions = document.querySelectorAll("#screen-3 .option");
-  const customRole = document.getElementById("customRole");
-  const btnStart = document.getElementById("btnStart");
+  /* ---------- SCREEN 3 : PERAN ---------- */
+const roleOptions = document.querySelectorAll("#screen-3 .option");
+const customRole = document.getElementById("customRole");
+const btnStart = document.getElementById("btnStart");
 
-  if (customRole) customRole.style.display = "none";
-  if (btnStart) btnStart.disabled = true;
+if (customRole) customRole.style.display = "none";
+if (btnStart) btnStart.disabled = true;
 
-  roleOptions.forEach(opt => {
-    opt.addEventListener("click", () => {
-      roleOptions.forEach(o => o.classList.remove("selected"));
-      opt.classList.add("selected");
+roleOptions.forEach(opt => {
+  opt.addEventListener("click", () => {
+    // reset pilihan
+    roleOptions.forEach(o => o.classList.remove("selected"));
+    opt.classList.add("selected");
 
-      const value = opt.textContent.trim();
+    const value = opt.textContent.trim();
 
-      if (value === "Lainnya") {
-        if (customRole) {
-          customRole.style.display = "block";
-          customRole.value = "";
-          btnStart.disabled = true;
-        }
-      } else {
-        if (customRole) customRole.style.display = "none";
-        state.role = value;
-        btnStart.disabled = false;
-      }
-    });
+    if (value === "Lainnya") {
+      // tampilkan input hanya jika Lainnya
+      customRole.style.display = "block";
+      customRole.value = "";
+      btnStart.disabled = true;
+    } else {
+      // sembunyikan input
+      customRole.style.display = "none";
+      state.role = value;
+      btnStart.disabled = false;
+    }
   });
+});
 
-  if (customRole) {
-    customRole.addEventListener("input", () => {
-      btnStart.disabled = !customRole.value.trim();
+// input manual utk "Lainnya"
+if (customRole) {
+  customRole.addEventListener("input", () => {
+    if (customRole.value.trim()) {
       state.role = customRole.value.trim();
-    });
-  }
+      btnStart.disabled = false;
+    } else {
+      btnStart.disabled = true;
+    }
+  });
+}
 
-  if (btnStart) {
-    btnStart.addEventListener("click", () => {
-      goTo(4);
-    });
-  }
+// lanjut ke pertanyaan
+if (btnStart) {
+  btnStart.addEventListener("click", () => {
+    goTo(4);
+  });
+}
 
   /* ---------- SCREEN 4 : RENDER PERTANYAAN ---------- */
   const questionBox = document.getElementById("questions");
