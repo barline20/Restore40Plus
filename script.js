@@ -187,74 +187,97 @@ function renderReflection() {
   if (!reflectionBox) return;
 
   const content = {
-    fisik: `
-      <p>🌿 <strong>Sepertinya tubuh Anda sudah bekerja cukup lama tanpa banyak jeda.</strong></p>
-      <p>
-        Mungkin bukan karena aktivitas berat, tapi karena terus berjalan tanpa benar-benar berhenti.
-        Wajar jika tubuh kini meminta perhatian.
-      </p>
-      <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Pelankan ritme sedikit. Ambil jeda singkat, dan dengarkan tubuh tanpa memaksanya terus kuat.
-      </p>
-    `,
-    pikiran: `
-      <p>🕊️ <strong>Pikiran Anda tampaknya jarang benar-benar berhenti.</strong></p>
-      <p>
-        Bahkan saat diam, kepala masih penuh oleh banyak hal.
-        Ini bukan tanda lemah—ini tanda lelah.
-      </p>
-      <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Hari ini, tidak semua hal harus dipikirkan. Sebagian boleh ditaruh dulu.
-      </p>
-    `,
-    emosional: `
-      <p>💛 <strong>Ada perasaan yang mungkin selama ini Anda simpan sendiri.</strong></p>
-      <p>
-        Bukan karena tidak mau berbagi, tapi karena sudah terbiasa menahan.
-        Hati juga bisa capek.
-      </p>
-      <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Perhatikan dulu apa yang Anda rasakan. Tidak perlu diubah—cukup diakui.
-      </p>
-    `,
-    sensorik: `
-      <p>🌱 <strong>Indra Anda mungkin sudah terlalu lama sibuk.</strong></p>
-      <p>
-        Layar, suara, dan aktivitas terus-menerus membuat tubuh sulit benar-benar tenang.
-      </p>
-      <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Beri mata dan telinga sedikit jeda. Cari suasana yang lebih lembut.
-      </p>
-    `,
-    relasi: `
-      <p>🤍 <strong>Anda banyak hadir untuk orang lain.</strong></p>
-      <p>
-        Kadang tanpa sadar, diri sendiri jadi belakangan.
-      </p>
-      <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Dekatlah dengan orang yang membuat Anda merasa aman. Tidak perlu memberi apa-apa.
-      </p>
-    `,
-    ekspresif: `
-      <p>✨ <strong>Bagian diri Anda yang menikmati hal-hal sederhana masih ada.</strong></p>
-      <p>
-        Mungkin tertutup oleh kesibukan—bukan hilang.
-      </p>
-      <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Lakukan satu hal kecil yang Anda suka hari ini. Tanpa target.
-      </p>
-    `,
-    spiritual: `
-      <p>🕯️ <strong>Ada keinginan untuk berhenti sejenak dan menata arah.</strong></p>
-      <p>
-        Itu wajar setelah perjalanan yang panjang.
-      </p>
-      <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
-        Luangkan waktu hening yang singkat—doa, refleksi, atau diam saja.
-      </p>
-    `
-  };
-
+  fisik: `
+    <p>🌿 <strong>Sepertinya tubuh Anda sudah bekerja cukup lama tanpa banyak jeda.</strong></p>
+    <p>
+      Mungkin bukan karena aktivitas yang terlalu berat,  
+      melainkan karena hari-hari yang terus berjalan tanpa ruang untuk benar-benar berhenti.
+      Tubuh punya caranya sendiri untuk memberi tahu ketika ia butuh perhatian.
+    </p>
+    <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Coba pelankan ritme Anda sedikit hari ini.  
+      Ambil jeda singkat, meski hanya beberapa menit,  
+      dan dengarkan apa yang tubuh Anda butuhkan—tanpa memaksanya untuk terus kuat.
+    </p>
+  `,
+  pikiran: `
+    <p>🕊️ <strong>Pikiran Anda tampaknya jarang benar-benar berhenti.</strong></p>
+    <p>
+      Bahkan ketika tubuh diam, kepala masih dipenuhi oleh berbagai hal yang perlu dipikirkan.
+      Ini bukan tanda bahwa Anda lemah,
+      melainkan tanda bahwa pikiran sudah bekerja terlalu lama.
+    </p>
+    <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Hari ini, tidak semua hal harus dipikirkan atau diselesaikan.  
+      Beberapa boleh ditaruh dulu,  
+      agar pikiran punya ruang untuk bernapas.
+    </p>
+  `,
+  emosional: `
+    <p>💛 <strong>Ada perasaan yang mungkin selama ini Anda simpan sendiri.</strong></p>
+    <p>
+      Bukan karena Anda tidak mau berbagi,
+      tetapi karena sudah terbiasa menahan dan tetap berjalan.
+      Perasaan yang terus dipendam juga bisa merasa lelah.
+    </p>
+    <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Luangkan waktu untuk menyadari apa yang sedang Anda rasakan saat ini.  
+      Tidak perlu diubah, dijelaskan, atau diperbaiki—  
+      cukup diakui dengan jujur dan lembut.
+    </p>
+  `,
+  sensorik: `
+    <p>🌱 <strong>Indra Anda mungkin sudah terlalu lama berada dalam kondisi siaga.</strong></p>
+    <p>
+      Paparan layar, suara, dan aktivitas yang terus-menerus
+      membuat tubuh sulit menemukan ketenangan yang utuh.
+    </p>
+    <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Beri mata dan telinga sedikit jeda hari ini.  
+      Cari suasana yang lebih lembut dan minim gangguan,  
+      agar tubuh perlahan bisa merasa lebih aman.
+    </p>
+  `,
+  relasi: `
+    <p>🤍 <strong>Anda tampaknya banyak hadir untuk orang lain.</strong></p>
+    <p>
+      Sering kali, tanpa disadari,
+      kebutuhan diri sendiri menjadi nomor sekian.
+      Padahal, memberi juga membutuhkan ruang untuk diisi kembali.
+    </p>
+    <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Dekatlah dengan orang yang membuat Anda merasa aman dan diterima.  
+      Anda tidak perlu memberi apa pun atau memainkan peran tertentu—  
+      hadir sebagai diri sendiri sudah cukup.
+    </p>
+  `,
+  ekspresif: `
+    <p>✨ <strong>Bagian diri Anda yang menikmati hal-hal sederhana sebenarnya masih ada.</strong></p>
+    <p>
+      Mungkin tertutup oleh kesibukan dan tuntutan,
+      tetapi bukan berarti hilang.
+      Ia hanya menunggu diberi ruang kembali.
+    </p>
+    <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Lakukan satu hal kecil yang Anda sukai hari ini.  
+      Tidak perlu target, hasil, atau alasan khusus—  
+      cukup lakukan karena itu memberi rasa hidup.
+    </p>
+  `,
+  spiritual: `
+    <p>🕯️ <strong>Ada kerinduan untuk berhenti sejenak dan menata arah.</strong></p>
+    <p>
+      Keinginan ini sering muncul setelah perjalanan yang panjang dan melelahkan.
+      Itu bukan tanda kebingungan,
+      melainkan tanda bahwa diri Anda sedang mencari makna.
+    </p>
+    <p><strong>Nggak apa-apa, yuk mulai dari sini:</strong><br>
+      Luangkan waktu hening yang singkat hari ini.  
+      Bisa melalui doa, refleksi, atau sekadar diam—  
+      biarkan keheningan membantu Anda kembali terhubung dengan diri sendiri.
+    </p>
+  `
+};
   reflectionBox.innerHTML = content[state.dominant] || `
     <p>Terima kasih telah berbagi dengan jujur.</p>
   `;
