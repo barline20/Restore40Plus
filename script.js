@@ -293,124 +293,110 @@ function renderProgramDays() {
 
   const selectedProgram = programs[state.dominant];
   if (!selectedProgram) return;
-  
+
   selectedProgram.forEach((day, i) => {
-  const dayNum = i + 1;
-  const locked = dayNum > state.currentDay;
-  const isOpen = state.currentOpenDay === dayNum;
+    const dayNum = i + 1;
+    const locked = dayNum > state.currentDay;
+    const isOpen = state.currentOpenDay === dayNum;
 
-  const card = document.createElement("div");
-  card.className = "day-card" + (locked ? " locked" : "");
+    const card = document.createElement("div");
+    card.className = "day-card" + (locked ? " locked" : "");
 
-  // HEADER DAY (SELALU TERLIHAT)
-  const header = document.createElement("h3");
-  header.textContent = `Day ${dayNum} · ${day.title}`;
-  card.appendChild(header);
+    const header = document.createElement("h3");
+    header.textContent = `Day ${dayNum} · ${day.title}`;
+    card.appendChild(header);
 
-  // KLIK DAY
-  if (!locked) {
-    header.style.cursor = "pointer";
-    header.addEventListener("click", () => {
-      state.currentOpenDay =
-        state.currentOpenDay === dayNum ? null : dayNum;
-      renderProgramDays();
-    });
-  }
-  // ISI AKTIVITAS (HANYA JIKA OPEN)
-if (isOpen && !locked) {
-  const content = document.createElement("div");
-
-  // DAY 1–4
-  if (dayNum < 5) {
-    content.innerHTML = `
-      <p><strong>Aktivitas:</strong> ${day.activity}</p>
-      <p>${day.guide}</p>
-    `;
-
-    const btn = document.createElement("button");
-    btn.className = "primary";
-    btn.textContent = "Saya sudah melakukan ini";
-
-    btn.addEventListener("click", () => {
-      state.currentDay++;
-      state.currentOpenDay = null;
-      renderProgramDays();
-    });
-
-    content.appendChild(btn);
-  }
-
-  // DAY 5 — REFLEKSI PENUTUP
-  // DAY 5
-if (dayNum === 5) {
-  // JIKA SESI BELUM DIAKHIRI
-  if (!state.day5Ended) {
-    content.innerHTML = `
-      <p><strong>Aktivitas:</strong> ${day.activity}</p>
-      <p>${day.guide}</p>
-
-      <button id="endDay5" class="primary">
-        Akhiri Sesi Restore40+
-      </button>
-    `;
-
-    setTimeout(() => {
-      const endBtn = document.getElementById("endDay5");
-      endBtn.addEventListener("click", () => {
-        state.day5Ended = true;
+    if (!locked) {
+      header.style.cursor = "pointer";
+      header.addEventListener("click", () => {
+        state.currentOpenDay =
+          state.currentOpenDay === dayNum ? null : dayNum;
         renderProgramDays();
       });
-    }, 0);
-  }
+    }
 
-  // JIKA SESI SUDAH DIAKHIRI → MUNCUL REFLEKSI
-  else {
-    content.innerHTML = `
-      <p class="soft">
-        🤍 Terima kasih telah menyelesaikan sesi Restore40+ hari ini.
-      </p>
+    if (isOpen && !locked) {
+      const content = document.createElement("div");
 
-      <p><strong>
-        Bagaimana perasaan Anda hari ini setelah menjalani perjalanan ini?
-      </strong></p>
+      // DAY 1–4
+      if (dayNum < 5) {
+        content.innerHTML = `
+          <p><strong>Aktivitas:</strong> ${day.activity}</p>
+          <p>${day.guide}</p>
+        `;
 
-      <textarea id="day5Text" rows="4"
-        placeholder="Silakan tuliskan dengan jujur, tidak ada jawaban benar atau salah."
-        style="width:100%; padding:12px; border-radius:12px; border:1px solid #d0d8d0;">
-      </textarea>
+        const btn = document.createElement("button");
+        btn.className = "primary";
+        btn.textContent = "Saya sudah melakukan ini";
 
-      <button id="btnDay5Submit" class="primary">
-        Lanjut
-      </button>
-    `;
+        btn.addEventListener("click", () => {
+          state.currentDay++;
+          state.currentOpenDay = null;
+          renderProgramDays();
+        });
 
-    setTimeout(() => {
-      const btnSubmit = document.getElementById("btnDay5Submit");
-      const textArea = document.getElementById("day5Text");
+        content.appendChild(btn);
+      }
 
-      btnSubmit.addEventListener("click", () => {
-        state.day5Reflection = textArea.value.trim();
+      // DAY 5
+      if (dayNum === 5) {
+        if (!state.day5Ended) {
+          content.innerHTML = `
+            <p><strong>Aktivitas:</strong> ${day.activity}</p>
+            <p>${day.guide}</p>
+            <button id="endDay5" class="primary">
+              Akhiri Sesi Restore40+
+            </button>
+          `;
 
-        sendToGoogleSheets();
-        
-        goTo(8);
-      });
-    }, 0);
-  }
+          setTimeout(() => {
+            document
+              .getElementById("endDay5")
+              .addEventListener("click", () => {
+                state.day5Ended = true;
+                renderProgramDays();
+              });
+          }, 0);
+
+        } else {
+          content.innerHTML = `
+            <p class="soft">🤍 Terima kasih telah menyelesaikan sesi Restore40+.</p>
+            <p><strong>Bagaimana perasaan Anda hari ini?</strong></p>
+
+            <textarea id="day5Text" rows="4"
+              placeholder="Tuliskan dengan jujur."
+              style="width:100%; padding:12px; border-radius:12px;">
+            </textarea>
+
+            <button id="btnDay5Submit" class="primary">Lanjut</button>
+          `;
+
+          setTimeout(() => {
+            const btnSubmit = document.getElementById("btnDay5Submit");
+            const textArea = document.getElementById("day5Text");
+
+            btnSubmit.addEventListener("click", () => {
+              state.day5Reflection = textArea.value.trim();
+              sendToGoogleSheets();
+              goTo(8);
+            });
+          }, 0);
+        }
+      }
+
+      card.appendChild(content);
+    }
+
+    if (locked) {
+      const lockMsg = document.createElement("p");
+      lockMsg.className = "soft";
+      lockMsg.textContent = "🔒 Hari ini masih terkunci";
+      card.appendChild(lockMsg);
+    }
+
+    container.appendChild(card);
+  });
 }
-
-  card.appendChild(content);
-}
-  // LOCKED MESSAGE
-  if (locked) {
-    const lockMsg = document.createElement("p");
-    lockMsg.className = "soft";
-    lockMsg.textContent = "🔒 Hari ini masih terkunci";
-    card.appendChild(lockMsg);
-  }
-
-  container.appendChild(card);
-});
     if (!locked && dayNum < 5) {
       card.querySelector("button").addEventListener("click", () => {
         state.currentDay++;
@@ -419,7 +405,7 @@ if (dayNum === 5) {
     }
 
     container.appendChild(card);
-  };
+    
 function sendToGoogleSheets() {
   const payload = {
     name: state.name,
