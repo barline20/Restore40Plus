@@ -14,20 +14,8 @@ body {
 }
 
 /* ======================================================
-   SCREEN SYSTEM
+   SCREEN SYSTEM (FINAL & AMAN)
 ====================================================== */
-.screen {
-  display: none;
-  min-height: 100vh;
-  padding: 48px 20px;
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.screen.active {
-  display: block;
-}
 .screen {
   display: none;
   min-height: 100vh;
@@ -38,7 +26,7 @@ body {
 
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .screen.active {
@@ -46,6 +34,7 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
 /* ======================================================
    TYPOGRAPHY
 ====================================================== */
