@@ -28,7 +28,24 @@ body {
 .screen.active {
   display: block;
 }
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 48px 20px;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
 
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.screen.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
 /* ======================================================
    TYPOGRAPHY
 ====================================================== */
@@ -86,6 +103,14 @@ button.secondary {
 button:disabled {
   background: #b7c7bd;
   cursor: not-allowed;
+}
+
+button {
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+button:not(:disabled):active {
+  transform: scale(0.97);
 }
 
 /* ======================================================
@@ -206,4 +231,16 @@ input:focus {
 ====================================================== */
 #customRole {
   display: none;
+}
+.day-card h3 {
+  cursor: pointer;
+}
+
+.day-card h3:hover {
+  text-decoration: underline;
+}
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
 }
