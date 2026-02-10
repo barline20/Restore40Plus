@@ -1,21 +1,21 @@
-/* =========================
-   RESET & GLOBAL
-========================= */
+/* ======================================================
+   RESET & BASE
+====================================================== */
 * {
   box-sizing: border-box;
-  font-family: "Segoe UI", system-ui, sans-serif;
 }
 
 body {
   margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: #f4f7f3;
   color: #2f3a2f;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-/* =========================
+/* ======================================================
    SCREEN SYSTEM
-========================= */
+====================================================== */
 .screen {
   display: none;
   min-height: 100vh;
@@ -29,11 +29,22 @@ body {
   display: block;
 }
 
-/* =========================
+/* ======================================================
    TYPOGRAPHY
-========================= */
-h1, h2 {
+====================================================== */
+h1 {
+  font-size: 2.2rem;
   margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 16px;
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
 }
 
 p {
@@ -45,9 +56,9 @@ p {
   font-size: 0.95rem;
 }
 
-/* =========================
+/* ======================================================
    BUTTONS
-========================= */
+====================================================== */
 button {
   width: 100%;
   padding: 14px 16px;
@@ -60,11 +71,16 @@ button {
 
 button.primary {
   background: #4f7a5b;
-  color: white;
+  color: #ffffff;
 }
 
 button.primary:hover {
   background: #3f6249;
+}
+
+button.secondary {
+  background: transparent;
+  color: #4f7a5b;
 }
 
 button:disabled {
@@ -72,28 +88,38 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* =========================
+/* ======================================================
    INPUTS
-========================= */
+====================================================== */
 input {
   width: 100%;
   padding: 14px 16px;
   margin-bottom: 14px;
   border-radius: 12px;
   border: 1px solid #d0d8d0;
+  font-size: 1rem;
 }
 
-/* =========================
-   OPTION
-========================= */
+input:focus {
+  outline: none;
+  border-color: #4f7a5b;
+}
+
+/* ======================================================
+   OPTION (SCREEN 3)
+====================================================== */
 .option {
   border: 1px solid #d0d8d0;
-  border-radius: 12px;
-  padding: 14px;
+  border-radius: 14px;
+  padding: 16px;
   margin-bottom: 12px;
-  background: #fff;
   cursor: pointer;
   text-align: left;
+  background: #ffffff;
+}
+
+.option:hover {
+  background: #eef3ee;
 }
 
 .option.selected {
@@ -101,26 +127,32 @@ input {
   border-color: #4f7a5b;
 }
 
-/* =========================
-   QUESTION CARD
-========================= */
+/* ======================================================
+   QUESTION CARDS
+====================================================== */
 .question-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 16px;
+  border: 1px solid #d0d8d0;
+  border-radius: 16px;
+  padding: 18px;
   margin-bottom: 20px;
+  background: #ffffff;
   text-align: left;
 }
 
-/* =========================
+/* ======================================================
    ANSWERS
-========================= */
+====================================================== */
 .answer {
   border: 1px solid #d0d8d0;
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 12px;
+  padding: 12px 14px;
   margin-bottom: 8px;
   cursor: pointer;
+  background: #ffffff;
+}
+
+.answer:hover {
+  background: #eef3ee;
 }
 
 .answer.selected {
@@ -128,22 +160,50 @@ input {
   border-color: #4f7a5b;
 }
 
-/* =========================
-   PROGRAM DAYS
-========================= */
+/* ======================================================
+   REFLECTION (SCREEN 5)
+====================================================== */
+#reflection {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
+}
+
+/* ======================================================
+   PROGRAM DAYS (SCREEN 7)
+====================================================== */
 #programDays {
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .day-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 16px;
-  text-align: left;
   border: 1px solid #d0d8d0;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 18px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.day-card h3 {
+  margin-top: 0;
 }
 
 .day-card.locked {
   opacity: 0.5;
+}
+
+/* subtle lock message */
+.day-card .soft {
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+/* ======================================================
+   MISC
+====================================================== */
+#customRole {
+  display: none;
 }
