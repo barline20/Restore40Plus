@@ -398,7 +398,7 @@ function renderProgramDays() {
   });
 }
 function sendToGoogleSheets() {
-  // Ganti dengan URL Web App dari Google Apps Script (setelah di-deploy)
+  // Pastikan URL ini adalah hasil Deployment TERBARU (yang ada ID AKfycbz...)
   const scriptURL = "https://script.google.com/macros/s/AKfycbzDhVzEo5Y5eJS30KMEgJhJ-j_GIMB6L0XAkBVjRQOEp3ZR0Swsyz5Wlpv2mVW5oETM/exec";
 
   const formData = new FormData();
@@ -410,17 +410,21 @@ function sendToGoogleSheets() {
   formData.append("answers", JSON.stringify(state.answers));
   formData.append("day5Reflection", state.day5Reflection);
 
+  console.log("Memulai pengiriman data...");
+
   fetch(scriptURL, {
     method: "POST",
     body: formData,
-    mode: "no-cors" // Agar tidak terblokir oleh kebijakan browser
+    mode: "no-cors" 
   })
   .then(() => {
-    console.log("✅ Data berhasil dikirim ke Sheets");
-    goTo(8); 
+    console.log("✅ Data terkirim (Status: Opaque)");
+    // Pindah ke screen 8 setelah berhasil
+    goTo(8);
   })
   .catch(err => {
-    console.error("❌ Gagal mengirim data:", err);
-    goTo(8); // Tetap pindah halaman agar user tidak bingung
+    console.error("❌ Gagal kirim:", err);
+    // Tetap pindah agar user tidak macet
+    goTo(8);
   });
 }
