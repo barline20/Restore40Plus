@@ -397,15 +397,6 @@ function renderProgramDays() {
     container.appendChild(card);
   });
 }
-    if (!locked && dayNum < 5) {
-      card.querySelector("button").addEventListener("click", () => {
-        state.currentDay++;
-        renderProgramDays();
-      });
-    }
-
-    container.appendChild(card);
-    
 function sendToGoogleSheets() {
   const payload = {
     name: state.name,
@@ -419,16 +410,16 @@ function sendToGoogleSheets() {
 
   fetch("https://script.google.com/macros/s/AKfycbytDBNL6MdEGJy1qFTef3AjXcwufiNvr8lVXlF8aeQXdfsgnk9KKfkQKvr_JyRKejO8/exec", {
     method: "POST",
+    mode: "no-cors",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(payload)
   })
-  .then(res => res.json())
-  .then(data => {
-    console.log("✅ Data berhasil dikirim ke Google Sheets", data);
+  .then(() => {
+    console.log("✅ Data terkirim ke Google Sheets");
   })
   .catch(err => {
-    console.error("❌ Gagal kirim data ke Google Sheets", err);
+    console.error("❌ Gagal kirim data", err);
   });
 }
