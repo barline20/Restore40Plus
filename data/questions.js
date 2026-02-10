@@ -1,40 +1,130 @@
 const questions = [
-  // FISIK
-  { id: 1, text: "Saya sering merasa tubuh saya lelah meskipun tidak melakukan aktivitas berat." },
-  { id: 2, text: "Saya merasa waktu tidur saya belum cukup untuk memulihkan tenaga." },
-  { id: 3, text: "Saya sering menunda istirahat meskipun tubuh sudah memberi sinyal lelah." },
+  // A. LELAH FISIK
+  {
+    id: 1,
+    dimension: "fisik",
+    text: "Ketika harus memilih antara tidur atau mengerjakan satu tugas lagi, saya cenderung memilih untuk tetap mengerjakan tugas."
+  },
+  {
+    id: 2,
+    dimension: "fisik",
+    text: "Tubuh saya sering terasa lelah, tetapi sulit untuk langsung tertidur nyenyak."
+  },
+  {
+    id: 3,
+    dimension: "fisik",
+    text: "Jam tidur saya sering kurang dari yang ideal untuk memulihkan tenaga."
+  },
 
-  // MENTAL
-  { id: 4, text: "Pikiran saya sering sulit berhenti meskipun tubuh ingin beristirahat." },
-  { id: 5, text: "Saya merasa kewalahan memikirkan banyak hal sekaligus." },
-  { id: 6, text: "Saya sering mengulang-ulang pikiran yang sama di kepala saya." },
+  // B. LELAH PIKIRAN
+  {
+    id: 4,
+    dimension: "pikiran",
+    text: "Masalah kecil sering membuat saya mudah merasa kesal atau tegang."
+  },
+  {
+    id: 5,
+    dimension: "pikiran",
+    text: "Saya lebih sering membayangkan hidup yang ideal daripada menghadapi kondisi hidup yang sedang saya jalani."
+  },
+  {
+    id: 6,
+    dimension: "pikiran",
+    text: "Saat waktunya tidur, pikiran saya masih terus berjalan."
+  },
 
-  // EMOSIONAL
-  { id: 7, text: "Saya merasa emosi saya lebih mudah naik turun akhir-akhir ini." },
-  { id: 8, text: "Saya sering merasa sedih atau kosong tanpa tahu alasannya." },
-  { id: 9, text: "Saya merasa lelah secara emosional." },
+  // C. LELAH EMOSIONAL
+  {
+    id: 7,
+    dimension: "emosional",
+    text: "Saya lebih sering mengingat kegagalan dibandingkan keberhasilan yang pernah saya capai."
+  },
+  {
+    id: 8,
+    dimension: "emosional",
+    text: "Memikirkan arah hidup sering membuat hati saya terasa berat."
+  },
+  {
+    id: 9,
+    dimension: "emosional",
+    text: "Saya cenderung melihat sisi berat dari kehidupan yang saya jalani."
+  },
 
-  // RELASI
-  { id: 10, text: "Saya sering merasa harus kuat di depan orang lain." },
-  { id: 11, text: "Saya kesulitan meminta bantuan ketika membutuhkannya." },
-  { id: 12, text: "Saya merasa hubungan dengan orang-orang terdekat terasa menguras energi." },
+  // D. LELAH SPIRITUAL
+  {
+    id: 10,
+    dimension: "spiritual",
+    text: "Saya merasa perlu terlihat baik-baik saja di depan orang lain, meskipun sebenarnya tidak selalu demikian."
+  },
+  {
+    id: 11,
+    dimension: "spiritual",
+    text: "Saya lebih sering menghindari acara atau momen kebersamaan dengan orang lain."
+  },
+  {
+    id: 12,
+    dimension: "spiritual",
+    text: "Ketika sedang membutuhkan bantuan, saya merasa bingung harus menghubungi siapa."
+  },
 
-  // SENSORIK
-  { id: 13, text: "Saya mudah terganggu oleh suara, cahaya, atau keramaian." },
-  { id: 14, text: "Saya merasa terlalu banyak stimulasi dari layar (HP, laptop, TV)." },
-  { id: 15, text: "Saya sulit merasa benar-benar tenang di lingkungan sekitar." },
+  // E. LELAH SENSORIK
+  {
+    id: 13,
+    dimension: "sensorik",
+    text: "Suara yang berisik sering membuat saya merasa tidak nyaman."
+  },
+  {
+    id: 14,
+    dimension: "sensorik",
+    text: "Saya menatap layar (ponsel, laptop, atau TV) hampir setiap hari tanpa banyak jeda."
+  },
+  {
+    id: 15,
+    dimension: "sensorik",
+    text: "Saya merasa kurang peka terhadap bau atau rangsangan di sekitar saya."
+  },
+  {
+    id: 16,
+    dimension: "sensorik",
+    text: "Saya lebih sering memilih makanan instan atau minuman manis."
+  },
+  {
+    id: 17,
+    dimension: "sensorik",
+    text: "Sentuhan fisik sering membuat saya merasa kurang nyaman."
+  },
 
-  // SPIRITUAL / MAKNA
-  { id: 16, text: "Saya merasa kehilangan arah atau makna dalam rutinitas hidup saya." },
-  { id: 17, text: "Saya jarang memberi waktu untuk merenung atau diam." },
-  { id: 18, text: "Saya merasa hubungan saya dengan nilai atau keyakinan pribadi melemah." },
+  // F. LELAH RELASI (SOSIAL)
+  {
+    id: 18,
+    dimension: "relasi",
+    text: "Saya lebih sering mendahulukan kebutuhan orang lain dibandingkan kebutuhan saya sendiri."
+  },
+  {
+    id: 19,
+    dimension: "relasi",
+    text: "Ketika meluangkan waktu untuk diri sendiri, saya sering merasa bersalah."
+  },
+  {
+    id: 20,
+    dimension: "relasi",
+    text: "Saya merasa usaha yang saya lakukan sering kurang dihargai oleh orang lain."
+  },
 
-  // EKSPRESI DIRI
-  { id: 19, text: "Saya merasa sulit mengekspresikan apa yang saya rasakan." },
-  { id: 20, text: "Saya sering memendam perasaan agar tidak merepotkan orang lain." },
-  { id: 21, text: "Saya merasa bagian diri saya yang kreatif sedang tumpul." },
-
-  // PEMULIHAN
-  { id: 22, text: "Saya jarang benar-benar memberi waktu untuk memulihkan diri." },
-  { id: 23, text: "Saya merasa membutuhkan jeda untuk merawat diri saya sendiri." }
+  // G. LELAH EKSPRESIF
+  {
+    id: 21,
+    dimension: "ekspresif",
+    text: "Mendapatkan ide baru terasa sulit bagi saya."
+  },
+  {
+    id: 22,
+    dimension: "ekspresif",
+    text: "Saya merasa diri saya tidak kreatif."
+  },
+  {
+    id: 23,
+    dimension: "ekspresif",
+    text: "Saat ini, saya merasa membutuhkan semangat dan inspirasi."
+  }
 ];
