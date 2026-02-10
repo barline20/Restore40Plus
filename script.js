@@ -8,7 +8,8 @@ const state = {
   phone: "",
   answers: {},
   dominant: null,
-  currentDay: 1
+  currentDay: 1,
+  currentOpenDay:null
 };
 
 /* ======================================================
@@ -267,27 +268,67 @@ function renderProgramDays() {
 
   const selectedProgram = programs[state.dominant];
   if (!selectedProgram) return;
-
+  
   selectedProgram.forEach((day, i) => {
-    const dayNum = i + 1;
-    const locked = dayNum > state.currentDay;
+  const dayNum = i + 1;
+  const locked = dayNum > state.currentDay;
+  const isOpen = state.currentOpenDay === dayNum;
 
-    const card = document.createElement("div");
-    card.className = "day-card" + (locked ? " locked" : "");
+  const card = document.createElement("div");
+  card.className = "day-card" + (locked ? " locked" : "");
 
-    card.innerHTML = `
-      <h3>Day ${dayNum} · ${day.title}</h3>
+  // HEADER DAY (SELALU TERLIHAT)
+  const header = document.createElement("h3");
+  header.textContent = `Day ${dayNum} · ${day.title}`;
+  card.appendChild(header);
+
+  // KLIK DAY
+  if (!locked) {
+    header.style.cursor = "pointer";
+    header.addEventListener("click", () => {
+      state.currentOpenDay =
+        state.currentOpenDay === dayNum ? null : dayNum;
+      renderProgramDays();
+    });
+  }
+
+  // ISI AKTIVITAS (HANYA JIKA OPEN)
+  if (isOpen && !locked) {
+    const content = document.createElement("div");
+
+    content.innerHTML = `
       <p><strong>Aktivitas:</strong> ${day.activity}</p>
       <p>${day.guide}</p>
-      ${
-        locked
-          ? `<p class="soft">🔒 Hari ini masih terkunci</p>`
-          : dayNum < 5
-            ? `<button class="primary">Saya sudah melakukan ini</button>`
-            : `<p>🌱 Terima kasih telah berjalan sejauh ini</p>`
-      }
     `;
 
+    // BUTTON (DAY 1–4)
+    if (dayNum < 5) {
+      const btn = document.createElement("button");
+      btn.className = "primary";
+      btn.textContent = "Saya sudah melakukan ini";
+
+      btn.addEventListener("click", () => {
+        state.currentDay++;
+        state.currentOpenDay = null;
+        renderProgramDays();
+      });
+
+      content.appendChild(btn);
+    }
+
+    card.appendChild(content);
+  }
+
+  // LOCKED MESSAGE
+  if (locked) {
+    const lockMsg = document.createElement("p");
+    lockMsg.className = "soft";
+    lockMsg.textContent = "🔒 Hari ini masih terkunci";
+    card.appendChild(lockMsg);
+  }
+
+  container.appendChild(card);
+});
     if (!locked && dayNum < 5) {
       card.querySelector("button").addEventListener("click", () => {
         state.currentDay++;
@@ -296,5 +337,4 @@ function renderProgramDays() {
     }
 
     container.appendChild(card);
-  });
-}
+  };
