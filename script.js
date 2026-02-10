@@ -10,6 +10,7 @@ const state = {
   dominant: null,
   currentDay: 1,
   currentOpenDay: null,
+  day5Ended: false,
   day5Reflection: ""
 };
 
@@ -340,22 +341,37 @@ if (isOpen && !locked) {
   }
 
   // DAY 5 — REFLEKSI PENUTUP
-  if (dayNum === 5) {
+  // DAY 5
+if (dayNum === 5) {
+  // JIKA SESI BELUM DIAKHIRI
+  if (!state.day5Ended) {
+    content.innerHTML = `
+      <p><strong>Aktivitas:</strong> ${day.activity}</p>
+      <p>${day.guide}</p>
+
+      <button id="endDay5" class="primary">
+        Akhiri Sesi Restore40+
+      </button>
+    `;
+
+    setTimeout(() => {
+      const endBtn = document.getElementById("endDay5");
+      endBtn.addEventListener("click", () => {
+        state.day5Ended = true;
+        renderProgramDays();
+      });
+    }, 0);
+  }
+
+  // JIKA SESI SUDAH DIAKHIRI → MUNCUL REFLEKSI
+  else {
     content.innerHTML = `
       <p class="soft">
-        🤍 Terima kasih telah berjalan bersama saya.<br>
-        Menjalani lima hari ini bukan hal yang ringan.
-        Setiap langkah kecil yang Anda ambil adalah bentuk kepedulian
-        pada diri sendiri.
-      </p>
-
-      <p>
-        Sebelum kita melangkah lebih jauh,
-        saya ingin mendengar dari Anda.
+        🤍 Terima kasih telah menyelesaikan sesi Restore40+ hari ini.
       </p>
 
       <p><strong>
-        Bagaimana perasaan Anda setelah menjalani perjalanan 5 hari ini?
+        Bagaimana perasaan Anda hari ini setelah menjalani perjalanan ini?
       </strong></p>
 
       <textarea id="day5Text" rows="4"
@@ -368,17 +384,17 @@ if (isOpen && !locked) {
       </button>
     `;
 
-    // HANDLE SUBMIT DAY 5
     setTimeout(() => {
       const btnSubmit = document.getElementById("btnDay5Submit");
       const textArea = document.getElementById("day5Text");
 
       btnSubmit.addEventListener("click", () => {
         state.day5Reflection = textArea.value.trim();
-        goTo(8); // Screen Kado
+        goTo(8);
       });
     }, 0);
   }
+}
 
   card.appendChild(content);
 }
