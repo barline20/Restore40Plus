@@ -398,40 +398,29 @@ function renderProgramDays() {
   });
 }
 function sendToGoogleSheets() {
-  const payload = {
-    name: state.name,
-    age: state.age,
-    role: state.role,
-    phone: state.phone,
-    dominant: state.dominant,
-    answers: state.answers,
-    day5Reflection: state.day5Reflection
-  };
+  // Ganti dengan URL Web App dari Google Apps Script (setelah di-deploy)
+  const scriptURL = "https://script.google.com/macros/s/AKfycbzDhVzEo5Y5eJS30KMEgJhJ-j_GIMB6L0XAkBVjRQOEp3ZR0Swsyz5Wlpv2mVW5oETM/exec";
 
-  function sendToGoogleSheets() {
-  const payload = {
-    name: state.name,
-    age: state.age,
-    role: state.role,
-    phone: state.phone,
-    dominant: state.dominant,
-    answers: state.answers,
-    day5Reflection: state.day5Reflection
-  };
-
-  // Gunakan URL Web App TERBARU hasil Re-deploy tadi
-  const scriptURL = "https://script.google.com/macros/s/AKfycbytDBNL6MdEGJy1qFTef3AjXcwufiNvr8lVXlF8aeQXdfsgnk9KKfkQKvr_JyRKejO8/exec";
+  const formData = new FormData();
+  formData.append("name", state.name);
+  formData.append("age", state.age);
+  formData.append("role", state.role);
+  formData.append("phone", state.phone);
+  formData.append("dominant", state.dominant);
+  formData.append("answers", JSON.stringify(state.answers));
+  formData.append("day5Reflection", state.day5Reflection);
 
   fetch(scriptURL, {
     method: "POST",
-    body: JSON.stringify(payload),
-    // Kita hapus mode: "no-cors" dan headers agar menggunakan default browser yang lebih aman untuk Apps Script
+    body: formData,
+    mode: "no-cors" // Agar tidak terblokir oleh kebijakan browser
   })
-  .then(res => {
-    console.log("✅ Data berhasil dikirim");
+  .then(() => {
+    console.log("✅ Data berhasil dikirim ke Sheets");
+    goTo(8); 
   })
   .catch(err => {
-    console.error("❌ Gagal!", err);
-    // Opsional: Tetap pindah screen meskipun gagal kirim agar user tidak bingung
+    console.error("❌ Gagal mengirim data:", err);
+    goTo(8); // Tetap pindah halaman agar user tidak bingung
   });
 }
