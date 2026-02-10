@@ -568,6 +568,11 @@ function renderProgramDays() {
   const container = document.getElementById("programDays");
   if (!container) return;
 
+  if (!state.dominant) {
+    container.innerHTML = "<p>Program belum tersedia.</p>";
+    return;
+  }
+
   container.innerHTML = "";
   const program = programs[state.dominant];
   if (!program) return;
