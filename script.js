@@ -4,13 +4,14 @@
 const state = {
   name: "",
   age: "",
-  role: ""
+  role: "",
+  answers: {}
 };
 
 /* ===============================
-   NAVIGASI SCREEN
+   NAVIGASI SCREEN (GLOBAL)
 =============================== */
-function goTo(target) {
+window.goTo = function (target) {
   document.querySelectorAll(".screen").forEach(s => {
     s.classList.remove("active");
   });
@@ -20,14 +21,14 @@ function goTo(target) {
     next.classList.add("active");
     window.scrollTo(0, 0);
   }
-}
+};
 
 /* ===============================
    INIT
 =============================== */
 document.addEventListener("DOMContentLoaded", () => {
 
-  // SCREEN 1
+  /* ---------- SCREEN 1 ---------- */
   goTo(1);
 
   const btnConsent = document.getElementById("btnConsent");
@@ -37,58 +38,56 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // SCREEN 2
+  /* ---------- SCREEN 2 ---------- */
   const nameInput = document.getElementById("name");
   const ageInput = document.getElementById("age");
-  const btnNext = document.getElementById("btnNextProfile");
+  const btnNextProfile = document.getElementById("btnNextProfile");
 
-  function checkProfile() {
-    if (!btnNext) return;
-    btnNext.disabled = !(nameInput.value.trim() && ageInput.value.trim());
+  function checkProfileFilled() {
+    if (!btnNextProfile) return;
+    btnNextProfile.disabled = !(
+      nameInput.value.trim() &&
+      ageInput.value.trim()
+    );
   }
 
   if (nameInput && ageInput) {
-    nameInput.addEventListener("input", checkProfile);
-    ageInput.addEventListener("input", checkProfile);
+    nameInput.addEventListener("input", checkProfileFilled);
+    ageInput.addEventListener("input", checkProfileFilled);
   }
 
-  if (btnNext) {
-    btnNext.addEventListener("click", () => {
+  if (btnNextProfile) {
+    btnNextProfile.addEventListener("click", () => {
       state.name = nameInput.value.trim();
       state.age = ageInput.value.trim();
       goTo(3);
     });
   }
 
-  // SCREEN 3
-  const options = document.querySelectorAll("#screen-3 .option");
+  /* ---------- SCREEN 3 ---------- */
+  const roleOptions = document.querySelectorAll("#screen-3 .option");
   const customRole = document.getElementById("customRole");
   const btnStart = document.getElementById("btnStart");
 
   if (customRole) customRole.style.display = "none";
   if (btnStart) btnStart.disabled = true;
 
-  options.forEach(opt => {
+  roleOptions.forEach(opt => {
     opt.addEventListener("click", () => {
-      options.querySelectorAll(".answer")
-       .forEach(a => a.classList.remove("selected"));
+      roleOptions.forEach(o => o.classList.remove("selected"));
       opt.classList.add("selected");
-      
-      // simpan jawaban
-      state.answers[q.id] = opt.textContent;
-      
-      // cek apakah semua sudah dijawab
-      checkAllAnswered();
-});
 
-      if (opt.textContent.trim() === "Lainnya") {
+      const value = opt.textContent.trim();
+
+      if (value === "Lainnya") {
         if (customRole) {
           customRole.style.display = "block";
+          customRole.value = "";
           btnStart.disabled = true;
         }
       } else {
         if (customRole) customRole.style.display = "none";
-        state.role = opt.textContent.trim();
+        state.role = value;
         btnStart.disabled = false;
       }
     });
@@ -107,26 +106,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-; 
-/* ===============================
-   KUNCI PERTANYAAN (SCREEN 4)
-=============================== */
-const btnResult = document.getElementById("btnResult");
+  /* ---------- SCREEN 4 : RENDER PERTANYAAN ---------- */
+  const questionBox = document.getElementById("questions");
+  const btnResult = document.getElementById("btnResult");
 
-// pastikan tombol mati di awal
-if (btnResult) btnResult.disabled = true;
+  if (btnResult) btnResult.disabled = true;
 
-// fungsi cek apakah semua pertanyaan sudah dijawab
-function checkAllAnswered() {
-  if (!btnResult) return;
+  function checkAllAnswered() {
+    if (!btnResult) return;
+    btnResult.disabled =
+      Object.keys(state.answers).length !== questions.length;
+  }
 
-  const totalQuestions = questions.length;
-  const answeredCount = Object.keys(state.answers).length;
+  if (questionBox && typeof questions !== "undefined") {
+    questions.forEach(q => {
+      const card = document.createElement("div");
+      card.className = "question-card";
 
-  btnResult.disabled = answeredCount !== totalQuestions;
-}
-if (btnResult) {
-  btnResult.addEventListener("click", () => {
-    goTo(5); // sementara ke screen hasil / placeholder
-  });
-}
+      const text = document.createElement("p");
+      text.textContent = q.text;
+
+      const options = document.createElement("div");
+
+      ["Ya", "Terkadang", "Tidak"].forEach(label => {
+        const opt = document.createElement("div");
+        opt.className = "answer";
+        opt.textContent = label;
+
+        opt.addEventListener("click", () => {
+          options.querySelectorAll(".answer")
+            .forEach(a => a.classList.remove("selected"));
+          opt.classList.add("selected");
+
+          state.answers[q.id] = label;
+          checkAllAnswered();
+        });
+
+        options.appendChild(opt);
+      });
+
+      card.appendChild(text);
+      card.appendChild(options);
+      questionBox.appendChild(card);
+    });
+  }
+
+  if (btnResult) {
+    btnResult.addEventListener("click", () => {
+      goTo(5); // placeholder hasil
+    });
+  }
+
+});
