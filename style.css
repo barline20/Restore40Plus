@@ -129,7 +129,7 @@ input {
 }
 
 /* =========================
-   PROGRAM DAYS (DAY 1–5 UI)
+   PROGRAM DAYS
 ========================= */
 #programDays {
   margin-top: 32px;
@@ -142,10 +142,6 @@ input {
   margin-bottom: 16px;
   text-align: left;
   border: 1px solid #d0d8d0;
-}
-
-.day-card h3 {
-  margin-top: 0;
 }
 
 .day-card.locked {
