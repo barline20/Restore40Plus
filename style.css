@@ -78,12 +78,19 @@ p {
 ====================================================== */
 button {
   width: 100%;
-  padding: 14px 16px;
+  min-height: 56px;
+  padding: 16px 20xpx;
   margin-top: 12px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: none;
   font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
+
+  display: flex;
+  align-items: center'
+
+  line-height: 1;
 }
 
 button.primary {
@@ -242,5 +249,5 @@ input:focus {
 textarea {
   font-family: inherit;
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.5;
 }
