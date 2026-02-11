@@ -398,8 +398,8 @@ function renderProgramDays() {
   });
 }
 function sendToGoogleSheets() {
-  // Pastikan URL ini adalah hasil Deployment TERBARU (yang ada ID AKfycbz...)
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwTxcIlGU-NqYRuSSx1xKQn6EDsx4YLsc032OfYV2ij3ybNWFGThlmuz0CRQ0YsI698/exec";
+  const scriptURL =
+    "https://script.google.com/macros/s/AKfycbxSW7DRg61sqqvlpshF5ceABZqoOmQ1OsQ06KY67vcVJafiQxeBaaangX4QqLLmJb2l/exec";
 
   const formData = new FormData();
   formData.append("name", state.name);
@@ -410,21 +410,17 @@ function sendToGoogleSheets() {
   formData.append("answers", JSON.stringify(state.answers));
   formData.append("day5Reflection", state.day5Reflection);
 
-  console.log("Memulai pengiriman data...");
-
   fetch(scriptURL, {
     method: "POST",
-    body: formData,
-    mode: "no-cors" 
+    body: formData
   })
-  .then(() => {
-    console.log("✅ Data terkirim (Status: Opaque)");
-    // Pindah ke screen 8 setelah berhasil
+  .then(res => res.json())
+  .then(data => {
+    console.log("✅ Response:", data);
     goTo(8);
   })
   .catch(err => {
-    console.error("❌ Gagal kirim:", err);
-    // Tetap pindah agar user tidak macet
+    console.error("❌ Error:", err);
     goTo(8);
   });
 }
